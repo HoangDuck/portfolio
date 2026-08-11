@@ -1,6 +1,16 @@
-##Steps
+# Hoang Huu Duc — Portfolio
 
-- Use flutter 3.24.0 by using fvm installed in computer
-- Create a new flutter project by fvm of flutter version as above
-- Platforms: Android, iOS
-- Create app that shows text "Hello world"
+Single-page portfolio (static HTML).
+
+## Run locally
+
+Open `index.html` in a browser, or serve the folder:
+
+```bash
+npx serve .
+```
+
+## Stack
+
+- Plain HTML + CSS (no build step)
+- Google Fonts: Inter, JetBrains Mono

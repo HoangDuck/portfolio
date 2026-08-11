@@ -1,53 +1,813 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="portfolio-container">
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-            </ul>
-        </nav>
-        <header>
-            <h1 style="color: blue;">My Portfolio</h1>
-            <img src="avatar.jpg" alt="Avatar" style="width:100px;height:100px;border-radius:50%;">
-            <p id="contact-info">Email: hoanghuuduc22@gmail.com</p>
-            <p id="social-media">
-                LinkedIn: <a href="https://www.linkedin.com/in/nhdute/">nhdute</a> |
-                GitHub: <a href="https://github.com/HoangDuck">HoangDuck</a>
-            </p>
-        </header>
-        <section id="about">
-            <h2>About Me</h2>
-            <p style="color: black;">I'm a <strong>Middle Flutter Developer</strong> with more than <strong>2 years of experience</strong>. I have worked on various <strong>mobile app development projects</strong> using Flutter in domains like <strong>Logistics, Human Resource Management, and Medical Communication</strong>.</p>
-            <p style="color: black;">I am proficient in using common <strong>state management libraries</strong> such as <strong>Riverpod, Bloc, Flutter Hooks, Provider, and GetX</strong>. Additionally, I have experience working with <strong>REST APIs</strong> using <strong>Dio</strong> (including interceptors) and the <strong>HTTP</strong> package.</p>
-            <p style="color: black;">I have <strong>basic native development skills</strong> in <strong>UIKit, SwiftUI</strong>, and I am familiar with Flutter’s <strong>MethodChannel</strong> for platform-specific implementations. I can read <strong>technical documents in English</strong>, and my <strong>communication skills</strong> are at an intermediate level.</p>
-            <p style="color: black;">With my experience and technical skills, I believe I am a strong candidate for the <strong>Flutter Developer</strong> position you are hiring for.</p>
-        </section>
-        <section id="projects" class="projects">
-            <h2>Projects</h2>
-            <div class="projects-container">
-                <ul id="project-list">
-                    <li class="project-item">
-                        <h3 style="color: black;">Project 1</h3>
-                    </li>
-                    <li class="project-item">
-                        <h3 style="color: black;">Project 2</h3>
-                    </li>
-                    <li class="project-item">
-                        <h3 style="color: black;">Project 3</h3>
-                    </li>
-                </ul>
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoang Huu Duc — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0e11;
+        --bg-raised: #12161b;
+        --bg-card: #14181e;
+        --border: #22272e;
+        --border-soft: #1b2027;
+        --text: #e8e9ea;
+        --text-dim: #9ca3ac;
+        --text-faint: #5b6470;
+        --accent: #c1440e;
+        --accent-soft: rgba(193, 68, 14, 0.12);
+        --status: #3fb950;
+        --font-sans: "Inter", -apple-system, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* ---------- Ambient background: gradient mesh trôi chậm ---------- */
+      .mesh {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .mesh::before,
+      .mesh::after,
+      .mesh span {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.16;
+      }
+      .mesh::before {
+        width: 720px;
+        height: 720px;
+        top: -220px;
+        left: -160px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          var(--accent),
+          transparent 68%
+        );
+        opacity: 0.38;
+        animation: drift1 22s ease-in-out infinite;
+      }
+      .mesh::after {
+        width: 640px;
+        height: 640px;
+        bottom: -200px;
+        right: -140px;
+        background: radial-gradient(
+          circle at 60% 40%,
+          #e8590c,
+          transparent 68%
+        );
+        opacity: 0.28;
+        animation: drift2 26s ease-in-out infinite;
+      }
+      .mesh span {
+        width: 560px;
+        height: 560px;
+        top: 38%;
+        left: 55%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          #2b4a6f,
+          transparent 68%
+        );
+        opacity: 0.32;
+        animation: drift3 30s ease-in-out infinite;
+      }
+      .mesh span.two {
+        width: 380px;
+        height: 380px;
+        top: 8%;
+        left: 68%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          #c1440e,
+          transparent 68%
+        );
+        opacity: 0.22;
+        animation: drift4 24s ease-in-out infinite;
+      }
+
+      @keyframes drift1 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(130px, 100px) scale(1.18);
+        }
+      }
+      @keyframes drift2 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-120px, -90px) scale(1.15);
+        }
+      }
+      @keyframes drift3 {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          transform: translate(-62%, -38%) scale(1.25);
+        }
+      }
+      @keyframes drift4 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-90px, 70px) scale(1.2);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .mesh::before,
+        .mesh::after,
+        .mesh span {
+          animation: none;
+        }
+      }
+
+      /* film grain rất nhẹ phủ trên mesh để tăng chất liệu */
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      ::selection {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 28px;
+        position: relative;
+        z-index: 1;
+      }
+
+      section {
+        padding: 96px 0;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      section:last-of-type {
+        border-bottom: none;
+      }
+
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 14px;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      /* ---------- HERO ---------- */
+      .hero {
+        padding-top: 120px;
+        padding-bottom: 80px;
+        border-bottom: 1px solid var(--border-soft);
+      }
+
+      .name-tag {
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        margin-bottom: 18px;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+        color: var(--text-dim);
+        background: var(--bg-raised);
+        border: 1px solid var(--border);
+        padding: 6px 12px 6px 10px;
+        border-radius: 100px;
+        margin-bottom: 32px;
+      }
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--status);
+        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.6);
+        animation: pulse 2.2s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.5);
+        }
+        70% {
+          box-shadow: 0 0 0 6px rgba(63, 185, 80, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(63, 185, 80, 0);
+        }
+      }
+
+      h1 {
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1.22;
+        letter-spacing: -0.02em;
+        color: #fff;
+        max-width: 620px;
+      }
+      h1 span.hl {
+        color: var(--accent);
+      }
+
+      .hero p.lede {
+        margin-top: 22px;
+        font-size: 17px;
+        color: var(--text-dim);
+        max-width: 540px;
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 40px;
+        margin-top: 48px;
+        flex-wrap: wrap;
+      }
+      .stat .num {
+        font-family: var(--font-mono);
+        font-size: 24px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .stat .label {
+        font-size: 12.5px;
+        color: var(--text-faint);
+        margin-top: 4px;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 44px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        font-family: var(--font-sans);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.15s ease;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #a83a0c;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        border-color: var(--text-faint);
+      }
+
+      /* ---------- ABOUT ---------- */
+      h2 {
+        font-size: 13px;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-faint);
+        margin-bottom: 24px;
+      }
+
+      .about p {
+        font-size: 16px;
+        color: var(--text-dim);
+        max-width: 620px;
+        margin-bottom: 16px;
+      }
+      .about p strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      /* ---------- PROJECTS ---------- */
+      .project {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        border-radius: 10px;
+        padding: 32px;
+        margin-bottom: 20px;
+      }
+
+      .project-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .project-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .project-sub {
+        font-size: 13.5px;
+        color: var(--text-faint);
+        margin-top: 4px;
+      }
+
+      .project-link {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--accent);
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 1px solid transparent;
+      }
+      .project-link:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .pas {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        gap: 6px 16px;
+        margin-bottom: 20px;
+      }
+      .pas-label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-faint);
+        padding-top: 2px;
+      }
+      .pas-value {
+        font-size: 14.5px;
+        color: var(--text-dim);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--text-dim);
+        background: var(--bg-raised);
+        border: 1px solid var(--border);
+        padding: 4px 9px;
+        border-radius: 5px;
+      }
+
+      /* ---------- SKILLS ---------- */
+      .skill-groups {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      @media (max-width: 600px) {
+        .skill-groups {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 32px;
+        }
+        .hero {
+          padding-top: 80px;
+        }
+        .project {
+          padding: 24px;
+        }
+        .pas {
+          grid-template-columns: 1fr;
+          gap: 2px 0;
+        }
+        .pas-label {
+          margin-top: 8px;
+        }
+      }
+      .skill-group-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 14px;
+      }
+      .skill-list {
+        list-style: none;
+      }
+      .skill-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 13.5px;
+        color: var(--text-dim);
+        padding: 7px 0;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .skill-list li::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
+      }
+
+      /* ---------- FOOTER ---------- */
+      footer {
+        padding: 80px 0 60px;
+      }
+      footer h3 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 14px;
+      }
+      footer p {
+        color: var(--text-dim);
+        margin-bottom: 32px;
+        max-width: 480px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-family: var(--font-mono);
+        font-size: 13px;
+      }
+      .footer-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 2px;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .foot-note {
+        margin-top: 60px;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--text-faint);
+      }
+
+      /* reveal on scroll — minimal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: rise 0.6s ease forwards;
+      }
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+        .dot {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mesh"><span></span><span class="two"></span></div>
+    <div class="grain"></div>
+
+    <div class="wrap">
+      <section class="hero">
+        <div class="name-tag reveal">Hoang Huu Duc</div>
+        <div class="status-badge reveal" style="animation-delay: 0.03s">
+          <span class="dot"></span> Đang tìm cơ hội Backend / Full-stack
+        </div>
+        <h1 class="reveal" style="animation-delay: 0.05s">
+          Mobile Engineer 4 năm — đang mở rộng sang
+          <span class="hl">Backend với Golang</span>
+        </h1>
+        <p class="lede reveal" style="animation-delay: 0.1s">
+          Xây production apps cho thị trường US, Nhật Bản, Việt Nam. Giờ đào sâu
+          hệ thống backend để làm chủ toàn bộ sản phẩm, không chỉ phần người
+          dùng thấy.
+        </p>
+
+        <div class="hero-stats reveal" style="animation-delay: 0.15s">
+          <div class="stat">
+            <div class="num">4+</div>
+            <div class="label">năm kinh nghiệm</div>
+          </div>
+          <div class="stat">
+            <div class="num">8+</div>
+            <div class="label">sản phẩm production</div>
+          </div>
+          <div class="stat">
+            <div class="num">2</div>
+            <div class="label">thị trường quốc tế</div>
+          </div>
+          <div class="stat">
+            <div class="num">2K+</div>
+            <div class="label">users hệ thống HRDept</div>
+          </div>
+        </div>
+
+        <div class="cta-row reveal" style="animation-delay: 0.2s">
+          <a href="#projects" class="btn btn-primary">Xem Projects</a>
+          <a href="#contact" class="btn btn-ghost">Liên hệ</a>
+        </div>
+      </section>
+
+      <section class="about">
+        <h2>// About</h2>
+        <p>
+          <strong>4 năm làm Mobile Engineer</strong> với Flutter — từ dev thuần
+          đến người kiến trúc hệ thống, review code, mentor junior. Đã ship app
+          production cho khách hàng ở Mỹ (Salonbookly, TWS Solutions) và Nhật
+          Bản (T&amp;E Intelligent Asia).
+        </p>
+        <p>
+          Trong quá trình làm <strong>HRDept</strong> — nền tảng tuyển dụng phục
+          vụ 2.000+ ứng viên và 400+ nhà tuyển dụng — mình đảm nhận cả phần
+          Backend bằng <strong>Golang, Postgres, Microservices</strong>, không
+          chỉ Mobile. Từ đó nhận ra mình muốn hiểu và làm chủ toàn bộ hệ thống,
+          không dừng ở lớp giao diện.
+        </p>
+        <p>
+          Cách làm việc: đơn giản hết mức có thể, ưu tiên giải quyết đúng vấn
+          đề, thực tế hơn là chạy theo công nghệ mới.
+        </p>
+      </section>
+
+      <section id="projects">
+        <h2>// Featured Projects</h2>
+
+        <div class="project">
+          <div class="project-head">
+            <div>
+              <div class="project-title">
+                Salonbookly &amp; TWS Solutions — POS System
+              </div>
+              <div class="project-sub">
+                Flutter · Windows / Android / iOS · US market
+              </div>
             </div>
-        </section>
-        <!-- Removed the contact section -->
+            <a
+              href="https://salonbookly.com"
+              class="project-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >salonbookly.com ↗</a
+            >
+          </div>
+          <div class="pas">
+            <div class="pas-label">Problem</div>
+            <div class="pas-value">
+              Merchant cần 1 hệ thống POS đa nền tảng, xử lý thanh toán qua phần
+              cứng thật (thẻ, contactless) mà không phụ thuộc thiết bị riêng.
+            </div>
+            <div class="pas-label">Approach</div>
+            <div class="pas-value">
+              Viết native plugin bằng Swift &amp; Kotlin để giao tiếp trực tiếp
+              với terminal thanh toán (PAX, Nuvei, GOAT), dựng kiến trúc module
+              GetX dùng chung cho cả 3 nền tảng.
+            </div>
+            <div class="pas-label">Result</div>
+            <div class="pas-value">
+              2 sản phẩm POS live tại thị trường Mỹ, xử lý checkout, split
+              payment, loyalty và thanh toán phần cứng ổn định trong môi trường
+              production.
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Flutter</span><span class="tag">Swift</span
+            ><span class="tag">Kotlin</span><span class="tag">GetX</span
+            ><span class="tag">WebSocket</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div>
+              <div class="project-title">HRDept Platform</div>
+              <div class="project-sub">
+                Golang · Flutter · Postgres · Microservices
+              </div>
+            </div>
+            <a
+              href="https://hrdept.vn"
+              class="project-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >hrdept.vn ↗</a
+            >
+          </div>
+          <div class="pas">
+            <div class="pas-label">Problem</div>
+            <div class="pas-value">
+              Nền tảng tuyển dụng cần backend chịu tải cao và app mobile mượt
+              cho việc tạo hồ sơ, apply job một chạm.
+            </div>
+            <div class="pas-label">Approach</div>
+            <div class="pas-value">
+              Trực tiếp phát triển cả backend (Golang, Postgres, microservices)
+              và mobile app (Flutter, Clean Architecture), đồng thời định hình
+              coding standards và dẫn dắt code review.
+            </div>
+            <div class="pas-label">Result</div>
+            <div class="pas-value">
+              Scale ổn định tới 2.000+ ứng viên và 400+ nhà tuyển dụng hoạt động
+              — dự án chứng minh năng lực backend thực tế, không chỉ lý thuyết.
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Golang</span><span class="tag">Postgres</span
+            ><span class="tag">Microservices</span
+            ><span class="tag">Flutter</span><span class="tag">Docker</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div>
+              <div class="project-title">i-SuperApp @ LTA</div>
+              <div class="project-sub">Flutter · Solo ownership</div>
+            </div>
+            <a
+              href="https://ltacv.com"
+              class="project-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              >ltacv.com ↗</a
+            >
+          </div>
+          <div class="pas">
+            <div class="pas-label">Problem</div>
+            <div class="pas-value">
+              Một tool đăng ký container IN/OUT bằng giấy cần số hoá và mở rộng
+              thành nền tảng đa dịch vụ cho tài xế và đối tác.
+            </div>
+            <div class="pas-label">Approach</div>
+            <div class="pas-value">
+              Một mình đảm nhận toàn bộ vòng đời: từ thiết kế kiến trúc, phát
+              triển tính năng, testing, đến làm việc trực tiếp với khách hàng để
+              nắm yêu cầu.
+            </div>
+            <div class="pas-label">Result</div>
+            <div class="pas-value">
+              Nâng cấp thành công từ 1 tool đơn giản thành Super App với nhiều
+              nhóm tính năng (y tế, quản lý tài xế, đặt chỗ), deploy ổn định
+              trên cả App Store và Google Play.
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Flutter</span><span class="tag">GetX</span
+            ><span class="tag">BLoC</span><span class="tag">SQL Server</span
+            ><span class="tag">Firebase</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="skills">
+        <h2>// Skills</h2>
+        <div class="skill-groups">
+          <div>
+            <div class="skill-group-title">Mobile</div>
+            <ul class="skill-list">
+              <li>Flutter / Dart</li>
+              <li>Swift / SwiftUI / Kotlin</li>
+              <li>Riverpod, Bloc, GetX</li>
+              <li>Clean Architecture</li>
+            </ul>
+          </div>
+          <div>
+            <div class="skill-group-title">Backend</div>
+            <ul class="skill-list">
+              <li>Golang</li>
+              <li>PostgreSQL / SQL Server</li>
+              <li>Microservices</li>
+              <li>Docker / Jenkins</li>
+            </ul>
+          </div>
+          <div>
+            <div class="skill-group-title">Engineering Practice</div>
+            <ul class="skill-list">
+              <li>Code review / mentoring</li>
+              <li>CI/CD — Fastlane, GitHub Actions</li>
+              <li>Claude Code, Cursor + Agent Skills</li>
+            </ul>
+          </div>
+          <div>
+            <div class="skill-group-title">Integration</div>
+            <ul class="skill-list">
+              <li>REST API / WebSocket</li>
+              <li>Firebase SDK</li>
+              <li>POS hardware / payment SDK</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer id="contact">
+        <h2>// Contact</h2>
+        <h3>Đang tìm cơ hội Backend hoặc Full-stack.</h3>
+        <p>
+          Nếu bạn cần một kỹ sư hiểu cả client lẫn server, ưu tiên giải pháp
+          thực tế hơn công nghệ hào nhoáng — nhắn mình.
+        </p>
+        <div class="footer-links">
+          <a href="mailto:hoanghuuduc2206@gmail.com">Email</a>
+          <a
+            href="https://www.linkedin.com/in/nhdute/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
+          <a
+            href="https://github.com/HoangDuck"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <a href="#">Download CV</a>
+        </div>
+        <div class="foot-note">TP. Hồ Chí Minh, Việt Nam</div>
+      </footer>
     </div>
-    <script src="script.js"></script>
-</body>
+  </body>
 </html>
