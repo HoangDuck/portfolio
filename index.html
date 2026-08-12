@@ -1,976 +1,995 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hoang Huu Duc — Preview</title>
-    <link
-      rel="icon"
-      type="image/png"
-      href="https://img.icons8.com/ios-filled/100/e8590c/laptop-coding.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="https://img.icons8.com/ios-filled/100/e8590c/laptop-coding.png"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #0b0e11;
-        --bg-raised: #12161b;
-        --bg-card: #14181e;
-        --border: #22272e;
-        --border-soft: #1b2027;
-        --text: #e8e9ea;
-        --text-dim: #9ca3ac;
-        --text-faint: #5b6470;
-        --accent: #c1440e;
-        --accent-soft: rgba(193, 68, 14, 0.12);
-        --status: #3fb950;
-        --font-sans: "Inter", -apple-system, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoang Huu Duc — Preview</title>
+<link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/100/e8590c/laptop-coding.png">
+<link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/100/e8590c/laptop-coding.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E11;
+    --bg-raised: #12161B;
+    --bg-card: #14181E;
+    --border: #22272E;
+    --border-soft: #1B2027;
+    --text: #E8E9EA;
+    --text-dim: #9CA3AC;
+    --text-faint: #5B6470;
+    --accent: #C1440E;
+    --accent-soft: rgba(193, 68, 14, 0.12);
+    --status: #3FB950;
+    --font-sans: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-        /* context-driven ambient values (defaults = "day") */
-        --mesh-op1: 0.38;
-        --mesh-op2: 0.28;
-        --mesh-op3: 0.32;
-        --mesh-op4: 0.22;
-        --drift1-dur: 22s;
-        --drift2-dur: 26s;
-        --drift3-dur: 30s;
-        --drift4-dur: 24s;
-        --dot-speed: 2.2s;
-      }
+    /* context-driven ambient values (defaults = "day") */
+    --mesh-op1: 0.38;
+    --mesh-op2: 0.28;
+    --mesh-op3: 0.32;
+    --mesh-op4: 0.22;
+    --drift1-dur: 22s;
+    --drift2-dur: 26s;
+    --drift3-dur: 30s;
+    --drift4-dur: 24s;
+    --dot-speed: 2.2s;
+  }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      html {
-        scroll-behavior: smooth;
-      }
+  html { scroll-behavior: smooth; }
 
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font-sans);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        position: relative;
-        overflow-x: hidden;
-        transition: background 0.8s ease;
-      }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+    transition: background 0.8s ease;
+  }
 
-      /* ---------- Ambient background: gradient mesh, context-aware ---------- */
-      .mesh {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
-      .mesh::before,
-      .mesh::after,
-      .mesh span {
-        content: "";
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(70px);
-        transition: opacity 1.2s ease;
-      }
-      .mesh::before {
-        width: 720px;
-        height: 720px;
-        top: -220px;
-        left: -160px;
-        background: radial-gradient(
-          circle at 30% 30%,
-          var(--accent),
-          transparent 68%
-        );
-        opacity: var(--mesh-op1);
-        animation: drift1 var(--drift1-dur) ease-in-out infinite;
-      }
-      .mesh::after {
-        width: 640px;
-        height: 640px;
-        bottom: -200px;
-        right: -140px;
-        background: radial-gradient(
-          circle at 60% 40%,
-          #e8590c,
-          transparent 68%
-        );
-        opacity: var(--mesh-op2);
-        animation: drift2 var(--drift2-dur) ease-in-out infinite;
-      }
-      .mesh span {
-        width: 560px;
-        height: 560px;
-        top: 38%;
-        left: 55%;
-        background: radial-gradient(
-          circle at 50% 50%,
-          #2b4a6f,
-          transparent 68%
-        );
-        opacity: var(--mesh-op3);
-        animation: drift3 var(--drift3-dur) ease-in-out infinite;
-      }
-      .mesh span.two {
-        width: 380px;
-        height: 380px;
-        top: 8%;
-        left: 68%;
-        background: radial-gradient(
-          circle at 50% 50%,
-          #c1440e,
-          transparent 68%
-        );
-        opacity: var(--mesh-op4);
-        animation: drift4 var(--drift4-dur) ease-in-out infinite;
-      }
-      .mesh span.holiday {
-        width: 460px;
-        height: 460px;
-        top: 58%;
-        left: 12%;
-        opacity: 0;
-        filter: blur(80px);
-        animation: drift2 36s ease-in-out infinite;
-      }
+  /* ---------- Ambient background: gradient mesh, context-aware ---------- */
+  .mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .mesh::before,
+  .mesh::after,
+  .mesh span {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    transition: opacity 1.2s ease;
+  }
+  .mesh::before {
+    width: 720px;
+    height: 720px;
+    top: -220px;
+    left: -160px;
+    background: radial-gradient(circle at 30% 30%, var(--accent), transparent 68%);
+    opacity: var(--mesh-op1);
+    animation: drift1 var(--drift1-dur) ease-in-out infinite;
+  }
+  .mesh::after {
+    width: 640px;
+    height: 640px;
+    bottom: -200px;
+    right: -140px;
+    background: radial-gradient(circle at 60% 40%, #E8590C, transparent 68%);
+    opacity: var(--mesh-op2);
+    animation: drift2 var(--drift2-dur) ease-in-out infinite;
+  }
+  .mesh span {
+    width: 560px;
+    height: 560px;
+    top: 38%;
+    left: 55%;
+    background: radial-gradient(circle at 50% 50%, #2B4A6F, transparent 68%);
+    opacity: var(--mesh-op3);
+    animation: drift3 var(--drift3-dur) ease-in-out infinite;
+  }
+  .mesh span.two {
+    width: 380px;
+    height: 380px;
+    top: 8%;
+    left: 68%;
+    background: radial-gradient(circle at 50% 50%, #C1440E, transparent 68%);
+    opacity: var(--mesh-op4);
+    animation: drift4 var(--drift4-dur) ease-in-out infinite;
+  }
+  .mesh span.holiday {
+    width: 460px;
+    height: 460px;
+    top: 58%;
+    left: 12%;
+    opacity: 0;
+    filter: blur(80px);
+    animation: drift2 36s ease-in-out infinite;
+  }
 
-      @keyframes drift1 {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-        }
-        50% {
-          transform: translate(130px, 100px) scale(1.18);
-        }
-      }
-      @keyframes drift2 {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-        }
-        50% {
-          transform: translate(-120px, -90px) scale(1.15);
-        }
-      }
-      @keyframes drift3 {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) scale(1);
-        }
-        50% {
-          transform: translate(-62%, -38%) scale(1.25);
-        }
-      }
-      @keyframes drift4 {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-        }
-        50% {
-          transform: translate(-90px, 70px) scale(1.2);
-        }
-      }
+  @keyframes drift1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(130px, 100px) scale(1.18); }
+  }
+  @keyframes drift2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-120px, -90px) scale(1.15); }
+  }
+  @keyframes drift3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-62%, -38%) scale(1.25); }
+  }
+  @keyframes drift4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-90px, 70px) scale(1.2); }
+  }
 
-      @media (prefers-reduced-motion: reduce) {
-        .mesh::before,
-        .mesh::after,
-        .mesh span {
-          animation: none;
-        }
-      }
+  @media (prefers-reduced-motion: reduce) {
+    .mesh::before, .mesh::after, .mesh span { animation: none; }
+  }
 
-      /* film grain rất nhẹ phủ trên mesh để tăng chất liệu */
-      .grain {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        opacity: 0.05;
-        mix-blend-mode: overlay;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      }
+  /* film grain rất nhẹ phủ trên mesh để tăng chất liệu */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
-      ::selection {
-        background: var(--accent);
-        color: #fff;
-      }
+  ::selection { background: var(--accent); color: #fff; }
 
-      a {
-        color: inherit;
-      }
+  a { color: inherit; }
 
-      /* ---------- Language switch ---------- */
-      .lang-switch {
-        position: fixed;
-        top: 24px;
-        right: 28px;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--bg-raised);
-        border: 1px solid var(--border);
-        border-radius: 100px;
-        padding: 5px;
-        font-family: var(--font-mono);
-        font-size: 11.5px;
-      }
-      .lang-switch button {
-        background: transparent;
-        border: none;
-        color: var(--text-faint);
-        padding: 5px 10px;
-        border-radius: 100px;
-        cursor: pointer;
-        font-family: var(--font-mono);
-        font-size: 11.5px;
-        letter-spacing: 0.04em;
-        transition: all 0.15s ease;
-      }
-      .lang-switch button.active {
-        background: var(--accent);
-        color: #fff;
-      }
-      .lang-switch button:not(.active):hover {
-        color: var(--text);
-      }
+  /* ---------- Language switch ---------- */
+  .lang-switch {
+    position: fixed;
+    top: 24px;
+    right: 28px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+  .lang-switch button {
+    background: transparent;
+    border: none;
+    color: var(--text-faint);
+    padding: 5px 10px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    transition: all 0.15s ease;
+  }
+  .lang-switch button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .lang-switch button:not(.active):hover {
+    color: var(--text);
+  }
 
-      /* ---------- Layout wrapper ---------- */
-      .wrap {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 0 clamp(24px, 6vw, 84px);
-        position: relative;
-        z-index: 1;
-      }
+  /* ---------- Layout wrapper ---------- */
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 clamp(24px, 6vw, 84px);
+    position: relative;
+    z-index: 1;
+  }
 
-      section {
-        padding: 96px 0;
-        border-bottom: 1px solid var(--border-soft);
-      }
-      section:last-of-type {
-        border-bottom: none;
-      }
+  section {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  section:last-of-type { border-bottom: none; }
 
-      /* ---------- HERO ---------- */
-      .hero {
-        padding-top: 120px;
-        padding-bottom: 80px;
-        border-bottom: 1px solid var(--border-soft);
-      }
+  /* ---------- HERO ---------- */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--border-soft);
+  }
 
-      .name-tag {
-        font-family: var(--font-mono);
-        font-size: 12.5px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--text-faint);
-        margin-bottom: 18px;
-      }
+  .name-tag {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 18px;
+  }
 
-      .status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--font-mono);
-        font-size: 12.5px;
-        color: var(--text-dim);
-        background: var(--bg-raised);
-        border: 1px solid var(--border);
-        padding: 6px 12px 6px 10px;
-        border-radius: 100px;
-        margin-bottom: 18px;
-        transition: border-color 0.4s ease;
-      }
-      .status-badge.season-high {
-        border-color: var(--accent);
-      }
-      .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--status);
-        box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.6);
-        animation: pulse var(--dot-speed) infinite;
-      }
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.5);
-        }
-        70% {
-          box-shadow: 0 0 0 6px rgba(63, 185, 80, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(63, 185, 80, 0);
-        }
-      }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-dim);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 6px 12px 6px 10px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+    transition: border-color 0.4s ease;
+  }
+  .status-badge.season-high {
+    border-color: var(--accent);
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--status);
+    box-shadow: 0 0 0 0 rgba(63,185,80,0.6);
+    animation: pulse var(--dot-speed) infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(63,185,80,0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(63,185,80,0); }
+    100% { box-shadow: 0 0 0 0 rgba(63,185,80,0); }
+  }
 
-      /* ---------- Context message banner ---------- */
-      .context-banner {
-        display: none;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-mono);
-        font-size: 13.5px;
-        line-height: 1.5;
-        color: var(--text);
-        margin-bottom: 26px;
-        max-width: 560px;
-        padding: 13px 18px;
-        background: var(--accent-soft);
-        border: 1px solid rgba(193, 68, 14, 0.4);
-        border-radius: 8px;
-        box-shadow:
-          0 0 0 1px rgba(193, 68, 14, 0.06),
-          0 6px 24px rgba(193, 68, 14, 0.18);
-      }
-      .context-banner.show {
-        display: flex;
-        animation: bannerPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-      }
-      @keyframes bannerPop {
-        0% {
-          opacity: 0;
-          transform: scale(0.94) translateY(-4px);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-      .context-banner .banner-icon {
-        color: var(--accent);
-        font-size: 15px;
-        flex-shrink: 0;
-        line-height: 1;
-        animation: iconPulse 2.4s ease-in-out infinite;
-      }
-      @keyframes iconPulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.35;
-        }
-      }
-      #contextMsg {
-        display: inline-block;
-        font-weight: 500;
-        transition:
-          opacity 0.4s ease,
-          transform 0.4s ease;
-      }
-      #contextMsg.msg-fade {
-        opacity: 0;
-        transform: translateY(4px);
-      }
+  /* ---------- Context message banner ---------- */
+  .context-banner {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 26px;
+    max-width: 560px;
+    padding: 13px 18px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(193, 68, 14, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(193, 68, 14, 0.06), 0 6px 24px rgba(193, 68, 14, 0.18);
+  }
+  .context-banner.show {
+    display: flex;
+    animation: bannerPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes bannerPop {
+    0% { opacity: 0; transform: scale(0.94) translateY(-4px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .context-banner .banner-icon {
+    color: var(--accent);
+    font-size: 15px;
+    flex-shrink: 0;
+    line-height: 1;
+    animation: iconPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes iconPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+  #contextMsg {
+    display: inline-block;
+    font-weight: 500;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  #contextMsg.msg-fade {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 
-      h1 {
-        font-size: 42px;
-        font-weight: 700;
-        line-height: 1.22;
-        letter-spacing: -0.02em;
-        color: #fff;
-        max-width: 700px;
-      }
-      h1 span.hl {
-        color: var(--accent);
-      }
+  h1 {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    color: #fff;
+    max-width: 700px;
+  }
+  h1 span.hl {
+    color: var(--accent);
+  }
 
-      .hero p.lede {
-        margin-top: 22px;
-        font-size: 17px;
-        color: var(--text-dim);
-        max-width: 580px;
-      }
+  .hero p.lede {
+    margin-top: 22px;
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 580px;
+  }
 
-      .hero-stats {
-        display: flex;
-        gap: 40px;
-        margin-top: 48px;
-        flex-wrap: wrap;
-      }
-      .stat .num {
-        font-family: var(--font-mono);
-        font-size: 24px;
-        font-weight: 600;
-        color: #fff;
-      }
-      .stat .label {
-        font-size: 12.5px;
-        color: var(--text-faint);
-        margin-top: 4px;
-      }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+  .stat .num {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .stat .label {
+    font-size: 12.5px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
 
-      .cta-row {
-        display: flex;
-        gap: 12px;
-        margin-top: 44px;
-        flex-wrap: wrap;
-      }
-      .btn {
-        font-family: var(--font-sans);
-        font-size: 14px;
-        font-weight: 600;
-        padding: 12px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.15s ease;
-      }
-      .btn-primary {
-        background: var(--accent);
-        color: #fff;
-      }
-      .btn-primary:hover {
-        background: #a83a0c;
-      }
-      .btn-ghost {
-        background: transparent;
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-      .btn-ghost:hover {
-        border-color: var(--text-faint);
-      }
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #A83A0C; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--text-faint); }
 
-      /* ---------- ABOUT ---------- */
-      h2 {
-        font-size: 13px;
-        font-family: var(--font-mono);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--text-faint);
-        margin-bottom: 24px;
-      }
+  /* ---------- ABOUT ---------- */
+  h2 {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin-bottom: 24px;
+  }
 
-      .about p {
-        font-size: 16px;
-        color: var(--text-dim);
-        max-width: 680px;
-        margin-bottom: 16px;
-      }
-      .about p strong {
-        color: var(--text);
-        font-weight: 600;
-      }
+  .about p {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin-bottom: 16px;
+  }
+  .about p strong { color: var(--text); font-weight: 600; }
 
-      /* ---------- PROJECTS ---------- */
-      .project {
-        border: 1px solid var(--border);
-        background: var(--bg-card);
-        border-radius: 10px;
-        padding: 32px;
-        margin-bottom: 20px;
-      }
+  /* ---------- TIMELINE (simple, compact) ---------- */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+  }
+  .timeline-track {
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: var(--border);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .timeline-track::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -45%;
+    width: 100%;
+    height: 45%;
+    background: linear-gradient(to bottom, transparent, var(--accent) 50%, transparent);
+    filter: blur(0.5px);
+    animation: signalTravel 3.6s linear infinite;
+  }
+  @keyframes signalTravel {
+    0% { top: -45%; }
+    100% { top: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-track::after { animation: none; }
+  }
 
-      .project-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
+  .timeline-item {
+    position: relative;
+    padding-left: 24px;
+    padding: 14px 0 14px 24px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  .timeline-item:hover,
+  .timeline-item:focus-within {
+    background: var(--bg-raised);
+  }
 
-      .project-title {
-        font-size: 19px;
-        font-weight: 700;
-        color: #fff;
-      }
-      .project-sub {
-        font-size: 13.5px;
-        color: var(--text-faint);
-        margin-top: 4px;
-      }
+  .timeline-dot {
+    position: absolute;
+    left: -23.5px;
+    top: 19px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--text-faint);
+    z-index: 1;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+  .timeline-item.pivot .timeline-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .timeline-item:hover .timeline-dot,
+  .timeline-item:focus-within .timeline-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: scale(1.25);
+  }
 
-      .project-link {
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--accent);
-        text-decoration: none;
-        white-space: nowrap;
-        border-bottom: 1px solid transparent;
-      }
-      .project-link:hover {
-        border-bottom-color: var(--accent);
-      }
+  .timeline-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .timeline-period {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    min-width: 130px;
+  }
+  .timeline-role {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s ease;
+  }
+  .timeline-item:hover .timeline-role,
+  .timeline-item:focus-within .timeline-role {
+    color: #fff;
+  }
+  .timeline-company {
+    font-size: 13.5px;
+    color: var(--text-faint);
+  }
+  .timeline-pivot-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .project {
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
 
-      .pas {
-        display: grid;
-        grid-template-columns: 90px 1fr;
-        gap: 6px 16px;
-        margin-bottom: 20px;
-      }
-      .pas-label {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--text-faint);
-        padding-top: 2px;
-      }
-      .pas-value {
-        font-size: 14.5px;
-        color: var(--text-dim);
-      }
+  .project-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
 
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .tag {
-        font-family: var(--font-mono);
-        font-size: 11.5px;
-        color: var(--text-dim);
-        background: var(--bg-raised);
-        border: 1px solid var(--border);
-        padding: 4px 9px;
-        border-radius: 5px;
-      }
+  .project-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .project-sub {
+    font-size: 13.5px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
 
-      /* ---------- SKILLS ---------- */
-      .skill-groups {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 32px;
-      }
-      @media (max-width: 900px) {
-        .skill-groups {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-      @media (max-width: 560px) {
-        .skill-groups {
-          grid-template-columns: 1fr;
-        }
-      }
-      .skill-group-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 14px;
-      }
-      .skill-list {
-        list-style: none;
-      }
-      .skill-list li {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-mono);
-        font-size: 13.5px;
-        color: var(--text-dim);
-        padding: 7px 0;
-        border-bottom: 1px solid var(--border-soft);
-      }
-      .skill-list li::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-        flex-shrink: 0;
-      }
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+  }
+  .project-link:hover { border-bottom-color: var(--accent); }
 
-      /* ---------- FOOTER ---------- */
-      footer {
-        padding: 80px 0 60px;
-      }
-      footer h3 {
-        font-size: 26px;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 14px;
-      }
-      footer p {
-        color: var(--text-dim);
-        margin-bottom: 32px;
-        max-width: 520px;
-      }
-      .footer-links {
-        display: flex;
-        gap: 24px;
-        flex-wrap: wrap;
-        font-family: var(--font-mono);
-        font-size: 13px;
-      }
-      .footer-links a {
-        color: var(--text-dim);
-        text-decoration: none;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 2px;
-      }
-      .footer-links a:hover {
-        color: var(--accent);
-        border-color: var(--accent);
-      }
+  .pas {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 6px 16px;
+    margin-bottom: 20px;
+  }
+  .pas-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    padding-top: 2px;
+  }
+  .pas-value {
+    font-size: 14.5px;
+    color: var(--text-dim);
+  }
 
-      .foot-note {
-        margin-top: 60px;
-        font-family: var(--font-mono);
-        font-size: 11.5px;
-        color: var(--text-faint);
-      }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 4px 9px;
+    border-radius: 5px;
+  }
 
-      .log-line {
-        margin-top: 10px;
-        font-family: var(--font-mono);
-        font-size: 10.5px;
-        color: #333b44;
-      }
+  /* ---------- SKILLS ---------- */
+  .skill-groups {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 900px) {
+    .skill-groups { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .skill-groups { grid-template-columns: 1fr; }
+  }
+  .skill-group-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .skill-list { list-style: none; }
+  .skill-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-dim);
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .skill-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
 
-      /* reveal on scroll — minimal */
-      .reveal {
-        opacity: 0;
-        transform: translateY(10px);
-        animation: rise 0.6s ease forwards;
-      }
-      @keyframes rise {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .reveal {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-        .dot {
-          animation: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="mesh">
-      <span></span><span class="two"></span
-      ><span class="holiday" id="holidayBlob"></span>
-    </div>
-    <div class="grain"></div>
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 80px 0 60px;
+  }
+  footer h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  footer p {
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    max-width: 520px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .footer-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+  }
+  .footer-links a:hover { color: var(--accent); border-color: var(--accent); }
 
-    <div class="lang-switch">
-      <button data-lang="en" class="active">EN</button>
-      <span style="color: var(--text-faint)">/</span>
-      <button data-lang="vi">VI</button>
-    </div>
+  .foot-note {
+    margin-top: 60px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
 
-    <div class="wrap">
-      <section class="hero">
-        <div class="name-tag reveal">Hoang Huu Duc</div>
-        <div class="status-badge reveal" style="animation-delay: 0.03s">
-          <span class="dot"></span> <span id="statusBadge"></span>
-        </div>
-        <div class="context-banner" id="contextBanner">
-          <span class="banner-icon">◆</span><span id="contextMsg"></span>
-        </div>
-        <h1 class="reveal" style="animation-delay: 0.05s">
-          <span id="headlinePre"></span><span class="hl" id="headlineHl"></span>
-        </h1>
-        <p class="lede reveal" style="animation-delay: 0.1s" id="lede"></p>
+  .log-line {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: #333B44;
+  }
 
-        <div class="hero-stats reveal" style="animation-delay: 0.15s">
-          <div class="stat">
-            <div class="num">4+</div>
-            <div class="label" id="stat1Label"></div>
-          </div>
-          <div class="stat">
-            <div class="num">8+</div>
-            <div class="label" id="stat2Label"></div>
-          </div>
-          <div class="stat">
-            <div class="num">2</div>
-            <div class="label" id="stat3Label"></div>
-          </div>
-          <div class="stat">
-            <div class="num">2K+</div>
-            <div class="label" id="stat4Label"></div>
-          </div>
-        </div>
+  /* reveal on scroll — minimal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.6s ease forwards;
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+    .dot { animation: none; }
+  }
+</style>
+</head>
+<body>
 
-        <div class="cta-row reveal" style="animation-delay: 0.2s">
-          <a href="#projects" class="btn btn-primary" id="ctaProjects"></a>
-          <a href="#contact" class="btn btn-ghost" id="ctaContact"></a>
-        </div>
-      </section>
+<div class="mesh"><span></span><span class="two"></span><span class="holiday" id="holidayBlob"></span></div>
+<div class="grain"></div>
 
-      <section class="about">
-        <h2 id="aboutHeading"></h2>
-        <p id="about1"></p>
-        <p id="about2"></p>
-        <p id="about3"></p>
-      </section>
+<div class="lang-switch">
+  <button data-lang="en" class="active">EN</button>
+  <span style="color:var(--text-faint)">/</span>
+  <button data-lang="vi">VI</button>
+</div>
 
-      <section id="projects">
-        <h2 id="projectsHeading"></h2>
+<div class="wrap">
 
-        <div class="project">
-          <div class="project-head">
-            <div>
-              <div class="project-title">
-                Salonbookly &amp; TWS Solutions — POS System
-              </div>
-              <div class="project-sub" id="p1Sub"></div>
-            </div>
-            <a href="#" class="project-link">salonbookly.com ↗</a>
-          </div>
-          <div class="pas">
-            <div class="pas-label" id="labelProblem1"></div>
-            <div class="pas-value" id="p1Problem"></div>
-            <div class="pas-label" id="labelApproach1"></div>
-            <div class="pas-value" id="p1Approach"></div>
-            <div class="pas-label" id="labelResult1"></div>
-            <div class="pas-value" id="p1Result"></div>
-          </div>
-          <div class="tags">
-            <span class="tag">Flutter</span><span class="tag">Swift</span
-            ><span class="tag">Kotlin</span><span class="tag">GetX</span
-            ><span class="tag">WebSocket</span>
-          </div>
-        </div>
+  <section class="hero">
+    <div class="name-tag reveal">Hoang Huu Duc</div>
+    <div class="status-badge reveal" style="animation-delay:0.03s"><span class="dot"></span> <span id="statusBadge"></span></div>
+    <div class="context-banner" id="contextBanner"><span class="banner-icon">◆</span><span id="contextMsg"></span></div>
+    <h1 class="reveal" style="animation-delay:0.05s"><span id="headlinePre"></span><span class="hl" id="headlineHl"></span></h1>
+    <p class="lede reveal" style="animation-delay:0.1s" id="lede"></p>
 
-        <div class="project">
-          <div class="project-head">
-            <div>
-              <div class="project-title">HRDept Platform</div>
-              <div class="project-sub" id="p2Sub"></div>
-            </div>
-            <a href="#" class="project-link">hrdept.vn ↗</a>
-          </div>
-          <div class="pas">
-            <div class="pas-label" id="labelProblem2"></div>
-            <div class="pas-value" id="p2Problem"></div>
-            <div class="pas-label" id="labelApproach2"></div>
-            <div class="pas-value" id="p2Approach"></div>
-            <div class="pas-label" id="labelResult2"></div>
-            <div class="pas-value" id="p2Result"></div>
-          </div>
-          <div class="tags">
-            <span class="tag">Golang</span><span class="tag">Postgres</span
-            ><span class="tag">Microservices</span
-            ><span class="tag">Flutter</span><span class="tag">Docker</span>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-head">
-            <div>
-              <div class="project-title">i-SuperApp @ LTA</div>
-              <div class="project-sub" id="p3Sub"></div>
-            </div>
-            <a href="#" class="project-link">ltacv.com ↗</a>
-          </div>
-          <div class="pas">
-            <div class="pas-label" id="labelProblem3"></div>
-            <div class="pas-value" id="p3Problem"></div>
-            <div class="pas-label" id="labelApproach3"></div>
-            <div class="pas-value" id="p3Approach"></div>
-            <div class="pas-label" id="labelResult3"></div>
-            <div class="pas-value" id="p3Result"></div>
-          </div>
-          <div class="tags">
-            <span class="tag">Flutter</span><span class="tag">GetX</span
-            ><span class="tag">BLoC</span><span class="tag">SQL Server</span
-            ><span class="tag">Firebase</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="skills">
-        <h2 id="skillsHeading"></h2>
-        <div class="skill-groups">
-          <div>
-            <div class="skill-group-title" id="skillGroup1"></div>
-            <ul class="skill-list">
-              <li>Flutter / Dart</li>
-              <li>Swift / SwiftUI / Kotlin</li>
-              <li>Riverpod, Bloc, GetX</li>
-              <li>Clean Architecture</li>
-            </ul>
-          </div>
-          <div>
-            <div class="skill-group-title" id="skillGroup2"></div>
-            <ul class="skill-list">
-              <li>Golang</li>
-              <li>PostgreSQL / SQL Server</li>
-              <li>Microservices</li>
-              <li>Docker / Jenkins</li>
-            </ul>
-          </div>
-          <div>
-            <div class="skill-group-title" id="skillGroup3"></div>
-            <ul class="skill-list">
-              <li id="skill3a"></li>
-              <li>CI/CD — Fastlane, GitHub Actions</li>
-              <li>Claude Code, Cursor + Agent Skills</li>
-            </ul>
-          </div>
-          <div>
-            <div class="skill-group-title" id="skillGroup4"></div>
-            <ul class="skill-list">
-              <li>REST API / WebSocket</li>
-              <li>Firebase SDK</li>
-              <li id="skill4c"></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <footer id="contact">
-        <h2 id="contactHeading"></h2>
-        <h3 id="contactSub"></h3>
-        <p id="contactP"></p>
-        <div class="footer-links">
-          <a href="mailto:hoanghuuduc2206@gmail.com">Email</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">GitHub</a>
-          <a href="#" id="ctaDownload"></a>
-        </div>
-        <div class="foot-note" id="footNote"></div>
-        <div class="log-line" id="logLine"></div>
-      </footer>
+    <div class="hero-stats reveal" style="animation-delay:0.15s">
+      <div class="stat"><div class="num">4+</div><div class="label" id="stat1Label"></div></div>
+      <div class="stat"><div class="num">8+</div><div class="label" id="stat2Label"></div></div>
+      <div class="stat"><div class="num">2</div><div class="label" id="stat3Label"></div></div>
+      <div class="stat"><div class="num">2K+</div><div class="label" id="stat4Label"></div></div>
     </div>
 
-    <script>
-      /* =========================================================
+    <div class="cta-row reveal" style="animation-delay:0.2s">
+      <a href="#projects" class="btn btn-primary" id="ctaProjects"></a>
+      <a href="#contact" class="btn btn-ghost" id="ctaContact"></a>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2 id="aboutHeading"></h2>
+    <p id="about1"></p>
+    <p id="about2"></p>
+    <p id="about3"></p>
+  </section>
+
+  <section id="projects">
+    <h2 id="projectsHeading"></h2>
+
+    <div class="project">
+      <div class="project-head">
+        <div>
+          <div class="project-title">Salonbookly &amp; TWS Solutions — POS System</div>
+          <div class="project-sub" id="p1Sub"></div>
+        </div>
+        <a href="#" class="project-link">salonbookly.com ↗</a>
+      </div>
+      <div class="pas">
+        <div class="pas-label" id="labelProblem1"></div>
+        <div class="pas-value" id="p1Problem"></div>
+        <div class="pas-label" id="labelApproach1"></div>
+        <div class="pas-value" id="p1Approach"></div>
+        <div class="pas-label" id="labelResult1"></div>
+        <div class="pas-value" id="p1Result"></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Flutter</span><span class="tag">Swift</span><span class="tag">Kotlin</span><span class="tag">GetX</span><span class="tag">WebSocket</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div>
+          <div class="project-title">HRDept Platform</div>
+          <div class="project-sub" id="p2Sub"></div>
+        </div>
+        <a href="#" class="project-link">hrdept.vn ↗</a>
+      </div>
+      <div class="pas">
+        <div class="pas-label" id="labelProblem2"></div>
+        <div class="pas-value" id="p2Problem"></div>
+        <div class="pas-label" id="labelApproach2"></div>
+        <div class="pas-value" id="p2Approach"></div>
+        <div class="pas-label" id="labelResult2"></div>
+        <div class="pas-value" id="p2Result"></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Golang</span><span class="tag">Postgres</span><span class="tag">Microservices</span><span class="tag">Flutter</span><span class="tag">Docker</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div>
+          <div class="project-title">i-SuperApp @ LTA</div>
+          <div class="project-sub" id="p3Sub"></div>
+        </div>
+        <a href="#" class="project-link">ltacv.com ↗</a>
+      </div>
+      <div class="pas">
+        <div class="pas-label" id="labelProblem3"></div>
+        <div class="pas-value" id="p3Problem"></div>
+        <div class="pas-label" id="labelApproach3"></div>
+        <div class="pas-value" id="p3Approach"></div>
+        <div class="pas-label" id="labelResult3"></div>
+        <div class="pas-value" id="p3Result"></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Flutter</span><span class="tag">GetX</span><span class="tag">BLoC</span><span class="tag">SQL Server</span><span class="tag">Firebase</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline-section">
+    <h2 id="timelineHeading"></h2>
+    <div class="timeline">
+      <div class="timeline-track"></div>
+
+      <div class="timeline-item" tabindex="0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-row">
+          <span class="timeline-period" id="tl1Period"></span>
+          <span class="timeline-role" id="tl1Role"></span>
+          <span class="timeline-company" id="tl1Company"></span>
+        </div>
+      </div>
+
+      <div class="timeline-item pivot" tabindex="0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-row">
+          <span class="timeline-period" id="tl2Period"></span>
+          <span class="timeline-role" id="tl2Role"></span>
+          <span class="timeline-company" id="tl2Company"></span>
+          <span class="timeline-pivot-tag" id="tl2Pivot"></span>
+        </div>
+      </div>
+
+      <div class="timeline-item" tabindex="0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-row">
+          <span class="timeline-period" id="tl3Period"></span>
+          <span class="timeline-role" id="tl3Role"></span>
+          <span class="timeline-company" id="tl3Company"></span>
+        </div>
+      </div>
+
+      <div class="timeline-item" tabindex="0">
+        <div class="timeline-dot"></div>
+        <div class="timeline-row">
+          <span class="timeline-period" id="tl4Period"></span>
+          <span class="timeline-role" id="tl4Role"></span>
+          <span class="timeline-company" id="tl4Company"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <h2 id="skillsHeading"></h2>
+    <div class="skill-groups">
+      <div>
+        <div class="skill-group-title" id="skillGroup1"></div>
+        <ul class="skill-list">
+          <li>Flutter / Dart</li>
+          <li>Swift / SwiftUI / Kotlin</li>
+          <li>Riverpod, Bloc, GetX</li>
+          <li>Clean Architecture</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-group-title" id="skillGroup2"></div>
+        <ul class="skill-list">
+          <li>Golang</li>
+          <li>PostgreSQL / SQL Server</li>
+          <li>Microservices</li>
+          <li>Docker / Jenkins</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-group-title" id="skillGroup3"></div>
+        <ul class="skill-list">
+          <li id="skill3a"></li>
+          <li>CI/CD — Fastlane, GitHub Actions</li>
+          <li>Claude Code, Cursor + Agent Skills</li>
+        </ul>
+      </div>
+      <div>
+        <div class="skill-group-title" id="skillGroup4"></div>
+        <ul class="skill-list">
+          <li>REST API / WebSocket</li>
+          <li>Firebase SDK</li>
+          <li id="skill4c"></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <h2 id="contactHeading"></h2>
+    <h3 id="contactSub"></h3>
+    <p id="contactP"></p>
+    <div class="footer-links">
+      <a href="mailto:hoanghuuduc2206@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#" id="ctaDownload"></a>
+    </div>
+    <div class="foot-note" id="footNote"></div>
+    <div class="log-line" id="logLine"></div>
+  </footer>
+
+</div>
+
+<script>
+  /* =========================================================
      I18N
   ========================================================= */
-      const translations = {
-        en: {
-          statusBadge: "Open to Backend / Full-stack opportunities",
-          statusBadgeActive: "Actively looking for Backend / Full-stack roles",
-          headlinePre: "Mobile Engineer for 4 years — expanding into ",
-          headlineHl: "Backend with Golang",
-          lede: "Shipped production apps for the US, Japan, and Vietnam markets. Now going deeper into backend systems to own the full product, not just the UI layer.",
-          stat1Label: "years of experience",
-          stat2Label: "products shipped",
-          stat3Label: "international markets",
-          stat4Label: "users on HRDept",
-          ctaProjects: "View Projects",
-          ctaContact: "Contact",
-          aboutHeading: "// About",
-          about1:
-            "<strong>4 years as a Mobile Engineer</strong> with Flutter — from shipping features to owning architecture, code reviews, and mentoring juniors. Shipped production apps for clients in the US (Salonbookly, TWS Solutions) and Japan (T&E Intelligent Asia).",
-          about2:
-            "Working on <strong>HRDept</strong> — a recruitment platform serving 2,000+ candidates and 400+ employers — I took on backend work with <strong>Golang, Postgres, and microservices</strong>, not just mobile. That's when I realized I wanted to understand and own the whole system, not stop at the UI layer.",
-          about3:
-            "How I work: keep it as simple as possible, focus on solving the actual problem, and stay practical over chasing new tech.",
-          projectsHeading: "// Featured Projects",
-          p1Sub: "Flutter · Windows / Android / iOS · US market",
-          p1Problem:
-            "Merchants needed a cross-platform POS system that could process payments through real hardware (card, contactless) without being locked to one device.",
-          p1Approach:
-            "Built native plugins in Swift and Kotlin to talk directly to payment terminals (PAX, Nuvei, GOAT), and structured a shared GetX module architecture across all three platforms.",
-          p1Result:
-            "Two POS products live in the US market, handling checkout, split payments, loyalty, and hardware payments reliably in production.",
-          p2Sub: "Golang · Flutter · Postgres · Microservices",
-          p2Problem:
-            "A recruitment platform needed a backend that could handle real load, plus a smooth mobile app for building profiles and one-tap job applications.",
-          p2Approach:
-            "Built both the backend (Golang, Postgres, microservices) and the mobile app (Flutter, Clean Architecture) directly, while setting coding standards and leading code reviews.",
-          p2Result:
-            "Scaled to 2,000+ active candidates and 400+ employers — proof of real backend capability, not just theory.",
-          p3Sub: "Flutter · Solo ownership",
-          p3Problem:
-            "A paper-based container IN/OUT registration process needed to go digital and grow into a multi-service platform for drivers and partners.",
-          p3Approach:
-            "Owned the entire lifecycle solo — architecture, feature development, testing, and working directly with the client to gather requirements.",
-          p3Result:
-            "Grew from a single simple tool into a Super App with multiple feature sets (medical, driver management, booking), shipped reliably on both the App Store and Google Play.",
-          labelProblem: "Problem",
-          labelApproach: "Approach",
-          labelResult: "Result",
-          skillsHeading: "// Skills",
-          skillGroup1: "Mobile",
-          skillGroup2: "Backend",
-          skillGroup3: "Engineering Practice",
-          skillGroup4: "Integration",
-          skill3a: "Code review / mentoring",
-          skill4c: "POS hardware / payment SDK",
-          contactHeading: "// Contact",
-          contactSub: "Looking for Backend or Full-stack opportunities.",
-          contactP:
-            "If you need an engineer who understands both client and server, and prefers practical solutions over flashy tech — let's talk.",
-          ctaDownload: "Download CV",
-          footNote: "Ho Chi Minh City, Vietnam",
-        },
-        vi: {
-          statusBadge: "Đang tìm cơ hội Backend / Full-stack",
-          statusBadgeActive: "Đang chủ động tìm cơ hội Backend / Full-stack",
-          headlinePre: "Mobile Engineer 4 năm — đang mở rộng sang ",
-          headlineHl: "Backend với Golang",
-          lede: "Xây production apps cho thị trường US, Nhật Bản, Việt Nam. Giờ đào sâu hệ thống backend để làm chủ toàn bộ sản phẩm, không chỉ phần người dùng thấy.",
-          stat1Label: "năm kinh nghiệm",
-          stat2Label: "sản phẩm production",
-          stat3Label: "thị trường quốc tế",
-          stat4Label: "users hệ thống HRDept",
-          ctaProjects: "Xem Projects",
-          ctaContact: "Liên hệ",
-          aboutHeading: "// About",
-          about1:
-            "<strong>4 năm làm Mobile Engineer</strong> với Flutter — từ dev thuần đến người kiến trúc hệ thống, review code, mentor junior. Đã ship app production cho khách hàng ở Mỹ (Salonbookly, TWS Solutions) và Nhật Bản (T&E Intelligent Asia).",
-          about2:
-            "Trong quá trình làm <strong>HRDept</strong> — nền tảng tuyển dụng phục vụ 2.000+ ứng viên và 400+ nhà tuyển dụng — mình đảm nhận cả phần Backend bằng <strong>Golang, Postgres, Microservices</strong>, không chỉ Mobile. Từ đó nhận ra mình muốn hiểu và làm chủ toàn bộ hệ thống, không dừng ở lớp giao diện.",
-          about3:
-            "Cách làm việc: đơn giản hết mức có thể, ưu tiên giải quyết đúng vấn đề, thực tế hơn là chạy theo công nghệ mới.",
-          projectsHeading: "// Featured Projects",
-          p1Sub: "Flutter · Windows / Android / iOS · Thị trường US",
-          p1Problem:
-            "Merchant cần 1 hệ thống POS đa nền tảng, xử lý thanh toán qua phần cứng thật (thẻ, contactless) mà không phụ thuộc thiết bị riêng.",
-          p1Approach:
-            "Viết native plugin bằng Swift & Kotlin để giao tiếp trực tiếp với terminal thanh toán (PAX, Nuvei, GOAT), dựng kiến trúc module GetX dùng chung cho cả 3 nền tảng.",
-          p1Result:
-            "2 sản phẩm POS live tại thị trường Mỹ, xử lý checkout, split payment, loyalty và thanh toán phần cứng ổn định trong môi trường production.",
-          p2Sub: "Golang · Flutter · Postgres · Microservices",
-          p2Problem:
-            "Nền tảng tuyển dụng cần backend chịu tải cao và app mobile mượt cho việc tạo hồ sơ, apply job một chạm.",
-          p2Approach:
-            "Trực tiếp phát triển cả backend (Golang, Postgres, microservices) và mobile app (Flutter, Clean Architecture), đồng thời định hình coding standards và dẫn dắt code review.",
-          p2Result:
-            "Scale ổn định tới 2.000+ ứng viên và 400+ nhà tuyển dụng hoạt động — dự án chứng minh năng lực backend thực tế, không chỉ lý thuyết.",
-          p3Sub: "Flutter · Solo ownership",
-          p3Problem:
-            "Một tool đăng ký container IN/OUT bằng giấy cần số hoá và mở rộng thành nền tảng đa dịch vụ cho tài xế và đối tác.",
-          p3Approach:
-            "Một mình đảm nhận toàn bộ vòng đời: từ thiết kế kiến trúc, phát triển tính năng, testing, đến làm việc trực tiếp với khách hàng để nắm yêu cầu.",
-          p3Result:
-            "Nâng cấp thành công từ 1 tool đơn giản thành Super App với nhiều nhóm tính năng (y tế, quản lý tài xế, đặt chỗ), deploy ổn định trên cả App Store và Google Play.",
-          labelProblem: "Vấn đề",
-          labelApproach: "Cách làm",
-          labelResult: "Kết quả",
-          skillsHeading: "// Skills",
-          skillGroup1: "Mobile",
-          skillGroup2: "Backend",
-          skillGroup3: "Thực hành kỹ thuật",
-          skillGroup4: "Tích hợp",
-          skill3a: "Code review / mentoring",
-          skill4c: "POS hardware / payment SDK",
-          contactHeading: "// Contact",
-          contactSub: "Đang tìm cơ hội Backend hoặc Full-stack.",
-          contactP:
-            "Nếu bạn cần một kỹ sư hiểu cả client lẫn server, ưu tiên giải pháp thực tế hơn công nghệ hào nhoáng — nhắn mình.",
-          ctaDownload: "Tải CV",
-          footNote: "TP. Hồ Chí Minh, Việt Nam",
-        },
-      };
+  const translations = {
+    en: {
+      statusBadge: "Open to Backend / Full-stack opportunities",
+      statusBadgeActive: "Actively looking for Backend / Full-stack roles",
+      headlinePre: "Mobile Engineer for 4 years — expanding into ",
+      headlineHl: "Backend with Golang",
+      lede: "Shipped production apps for the US, Japan, and Vietnam markets. Now going deeper into backend systems to own the full product, not just the UI layer.",
+      stat1Label: "years of experience",
+      stat2Label: "products shipped",
+      stat3Label: "international markets",
+      stat4Label: "users on HRDept",
+      ctaProjects: "View Projects",
+      ctaContact: "Contact",
+      aboutHeading: "// About",
+      about1: "<strong>4 years as a Mobile Engineer</strong> with Flutter — from shipping features to owning architecture, code reviews, and mentoring juniors. Shipped production apps for clients in the US (Salonbookly, TWS Solutions) and Japan (T&E Intelligent Asia).",
+      about2: "Working on <strong>HRDept</strong> — a recruitment platform serving 2,000+ candidates and 400+ employers — I took on backend work with <strong>Golang, Postgres, and microservices</strong>, not just mobile. That's when I realized I wanted to understand and own the whole system, not stop at the UI layer.",
+      about3: "How I work: keep it as simple as possible, focus on solving the actual problem, and stay practical over chasing new tech.",
+      timelineHeading: "// Career Timeline",
+      tl1Period: "Mar 2025 – Present · 1 yr 6 mos",
+      tl1Role: "Mobile Developer",
+      tl1Company: "Én Nam Software JSC · Full-time",
+      tl1Desc: "Architected cross-platform POS apps for the US market, building native iOS/Kotlin plugins for hardware payment terminals and using AI-assisted tools in daily development.",
+      tl2Period: "Dec 2024 – Present · 1 yr 9 mos",
+      tl2Pivot: "→ Backend turning point",
+      tl2Role: "Backend Developer",
+      tl2Company: "HRDept.vn · Freelance",
+      tl2Desc: "Took on backend development for the first time in production — Go, PostgreSQL, microservices — for a recruitment platform, alongside its mobile app.",
+      tl3Period: "Oct 2023 – Nov 2024 · 1 yr 2 mos",
+      tl3Role: "Mobile Developer",
+      tl3Company: "Executionlab · Full-time",
+      tl3Desc: "Delivered a communication and task-management app for medical facilities in the Japan market, with real-time chat and a scalable state-management architecture.",
+      tl4Period: "Jan 2022 – Sep 2023 · 1 yr 9 mos",
+      tl4Role: "Flutter Developer",
+      tl4Company: "GSOT Group · Full-time",
+      tl4Desc: "Built and maintained multiple enterprise apps — HR management, e-signature, logistics, and QA/QC tracking — working directly with clients to gather requirements.",
+      projectsHeading: "// Featured Projects",
+      p1Sub: "Flutter · Windows / Android / iOS · US market",
+      p1Problem: "Merchants needed a cross-platform POS system that could process payments through real hardware (card, contactless) without being locked to one device.",
+      p1Approach: "Built native plugins in Swift and Kotlin to talk directly to payment terminals (PAX, Nuvei, GOAT), and structured a shared GetX module architecture across all three platforms.",
+      p1Result: "Two POS products live in the US market, handling checkout, split payments, loyalty, and hardware payments reliably in production.",
+      p2Sub: "Golang · Flutter · Postgres · Microservices",
+      p2Problem: "A recruitment platform needed a backend that could handle real load, plus a smooth mobile app for building profiles and one-tap job applications.",
+      p2Approach: "Built both the backend (Golang, Postgres, microservices) and the mobile app (Flutter, Clean Architecture) directly, while setting coding standards and leading code reviews.",
+      p2Result: "Scaled to 2,000+ active candidates and 400+ employers — proof of real backend capability, not just theory.",
+      p3Sub: "Flutter · Solo ownership",
+      p3Problem: "A paper-based container IN/OUT registration process needed to go digital and grow into a multi-service platform for drivers and partners.",
+      p3Approach: "Owned the entire lifecycle solo — architecture, feature development, testing, and working directly with the client to gather requirements.",
+      p3Result: "Grew from a single simple tool into a Super App with multiple feature sets (medical, driver management, booking), shipped reliably on both the App Store and Google Play.",
+      labelProblem: "Problem",
+      labelApproach: "Approach",
+      labelResult: "Result",
+      skillsHeading: "// Skills",
+      skillGroup1: "Mobile",
+      skillGroup2: "Backend",
+      skillGroup3: "Engineering Practice",
+      skillGroup4: "Integration",
+      skill3a: "Code review / mentoring",
+      skill4c: "POS hardware / payment SDK",
+      contactHeading: "// Contact",
+      contactSub: "Looking for Backend or Full-stack opportunities.",
+      contactP: "If you need an engineer who understands both client and server, and prefers practical solutions over flashy tech — let's talk.",
+      ctaDownload: "Download CV",
+      footNote: "Ho Chi Minh City, Vietnam"
+    },
+    vi: {
+      statusBadge: "Đang tìm cơ hội Backend / Full-stack",
+      statusBadgeActive: "Đang chủ động tìm cơ hội Backend / Full-stack",
+      headlinePre: "Mobile Engineer 4 năm — đang mở rộng sang ",
+      headlineHl: "Backend với Golang",
+      lede: "Xây production apps cho thị trường US, Nhật Bản, Việt Nam. Giờ đào sâu hệ thống backend để làm chủ toàn bộ sản phẩm, không chỉ phần người dùng thấy.",
+      stat1Label: "năm kinh nghiệm",
+      stat2Label: "sản phẩm production",
+      stat3Label: "thị trường quốc tế",
+      stat4Label: "users hệ thống HRDept",
+      ctaProjects: "Xem Projects",
+      ctaContact: "Liên hệ",
+      aboutHeading: "// About",
+      about1: "<strong>4 năm làm Mobile Engineer</strong> với Flutter — từ dev thuần đến người kiến trúc hệ thống, review code, mentor junior. Đã ship app production cho khách hàng ở Mỹ (Salonbookly, TWS Solutions) và Nhật Bản (T&E Intelligent Asia).",
+      about2: "Trong quá trình làm <strong>HRDept</strong> — nền tảng tuyển dụng phục vụ 2.000+ ứng viên và 400+ nhà tuyển dụng — mình đảm nhận cả phần Backend bằng <strong>Golang, Postgres, Microservices</strong>, không chỉ Mobile. Từ đó nhận ra mình muốn hiểu và làm chủ toàn bộ hệ thống, không dừng ở lớp giao diện.",
+      about3: "Cách làm việc: đơn giản hết mức có thể, ưu tiên giải quyết đúng vấn đề, thực tế hơn là chạy theo công nghệ mới.",
+      timelineHeading: "// Career Timeline",
+      tl1Period: "03/2025 – Hiện tại · 1 năm 6 tháng",
+      tl1Role: "Mobile Developer",
+      tl1Company: "Công ty CP DV-CN Phần mềm Én Nam · Full-time",
+      tl1Desc: "Kiến trúc các ứng dụng POS đa nền tảng cho thị trường Mỹ, viết native plugin iOS/Kotlin cho terminal thanh toán, và dùng công cụ AI hỗ trợ trong phát triển hàng ngày.",
+      tl2Period: "12/2024 – Hiện tại · 1 năm 9 tháng",
+      tl2Pivot: "→ Bước ngoặt Backend",
+      tl2Role: "Backend Developer",
+      tl2Company: "HRDept.vn · Freelance",
+      tl2Desc: "Lần đầu đảm nhận backend thực tế trong production — Go, PostgreSQL, microservices — cho nền tảng tuyển dụng, song song với mobile app của nền tảng này.",
+      tl3Period: "10/2023 – 11/2024 · 1 năm 2 tháng",
+      tl3Role: "Mobile Developer",
+      tl3Company: "Executionlab · Full-time",
+      tl3Desc: "Xây dựng app giao tiếp và quản lý công việc cho các cơ sở y tế tại thị trường Nhật Bản, có chat real-time và kiến trúc quản lý state có thể mở rộng.",
+      tl4Period: "01/2022 – 09/2023 · 1 năm 9 tháng",
+      tl4Role: "Flutter Developer",
+      tl4Company: "GSOT Group · Full-time",
+      tl4Desc: "Xây dựng và duy trì nhiều ứng dụng doanh nghiệp — quản lý nhân sự, e-signature, logistics, và theo dõi QA/QC — làm việc trực tiếp với khách hàng để nắm yêu cầu.",
+      projectsHeading: "// Featured Projects",
+      p1Sub: "Flutter · Windows / Android / iOS · Thị trường US",
+      p1Problem: "Merchant cần 1 hệ thống POS đa nền tảng, xử lý thanh toán qua phần cứng thật (thẻ, contactless) mà không phụ thuộc thiết bị riêng.",
+      p1Approach: "Viết native plugin bằng Swift & Kotlin để giao tiếp trực tiếp với terminal thanh toán (PAX, Nuvei, GOAT), dựng kiến trúc module GetX dùng chung cho cả 3 nền tảng.",
+      p1Result: "2 sản phẩm POS live tại thị trường Mỹ, xử lý checkout, split payment, loyalty và thanh toán phần cứng ổn định trong môi trường production.",
+      p2Sub: "Golang · Flutter · Postgres · Microservices",
+      p2Problem: "Nền tảng tuyển dụng cần backend chịu tải cao và app mobile mượt cho việc tạo hồ sơ, apply job một chạm.",
+      p2Approach: "Trực tiếp phát triển cả backend (Golang, Postgres, microservices) và mobile app (Flutter, Clean Architecture), đồng thời định hình coding standards và dẫn dắt code review.",
+      p2Result: "Scale ổn định tới 2.000+ ứng viên và 400+ nhà tuyển dụng hoạt động — dự án chứng minh năng lực backend thực tế, không chỉ lý thuyết.",
+      p3Sub: "Flutter · Solo ownership",
+      p3Problem: "Một tool đăng ký container IN/OUT bằng giấy cần số hoá và mở rộng thành nền tảng đa dịch vụ cho tài xế và đối tác.",
+      p3Approach: "Một mình đảm nhận toàn bộ vòng đời: từ thiết kế kiến trúc, phát triển tính năng, testing, đến làm việc trực tiếp với khách hàng để nắm yêu cầu.",
+      p3Result: "Nâng cấp thành công từ 1 tool đơn giản thành Super App với nhiều nhóm tính năng (y tế, quản lý tài xế, đặt chỗ), deploy ổn định trên cả App Store và Google Play.",
+      labelProblem: "Vấn đề",
+      labelApproach: "Cách làm",
+      labelResult: "Kết quả",
+      skillsHeading: "// Skills",
+      skillGroup1: "Mobile",
+      skillGroup2: "Backend",
+      skillGroup3: "Thực hành kỹ thuật",
+      skillGroup4: "Tích hợp",
+      skill3a: "Code review / mentoring",
+      skill4c: "POS hardware / payment SDK",
+      contactHeading: "// Contact",
+      contactSub: "Đang tìm cơ hội Backend hoặc Full-stack.",
+      contactP: "Nếu bạn cần một kỹ sư hiểu cả client lẫn server, ưu tiên giải pháp thực tế hơn công nghệ hào nhoáng — nhắn mình.",
+      ctaDownload: "Tải CV",
+      footNote: "TP. Hồ Chí Minh, Việt Nam"
+    }
+  };
 
-      /* =========================================================
+  /* =========================================================
      CONTEXT ENGINE
      Test via URL params, e.g.:
      ?mockHour=2                → force night hour
@@ -979,488 +998,398 @@
      ?mockJobSeason=1           → force high job season
   ========================================================= */
 
-      function getQueryParam(name) {
-        return new URLSearchParams(window.location.search).get(name);
+  function getQueryParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  const tetDates = {
+    2024: '2024-02-10', 2025: '2025-01-29', 2026: '2026-02-17',
+    2027: '2027-02-06', 2028: '2028-01-26', 2029: '2029-02-13', 2030: '2030-02-03'
+  };
+  function getTetDate(year) {
+    return tetDates[year] ? new Date(tetDates[year] + 'T00:00:00') : null;
+  }
+
+  function resolveContext() {
+    const now = new Date();
+
+    const mockHour = getQueryParam('mockHour');
+    const hour = mockHour !== null ? parseInt(mockHour, 10) : now.getHours();
+
+    const mockWeekend = getQueryParam('mockWeekend');
+    const isWeekend = mockWeekend !== null ? mockWeekend === '1' : (now.getDay() === 0 || now.getDay() === 6);
+
+    const isNight = hour >= 0 && hour < 5;
+    const isMorning = hour >= 5 && hour < 11;
+    const isEvening = hour >= 18 && hour < 24 && !isNight;
+
+    let timeOfDay = 'day';
+    if (isNight) timeOfDay = 'night';
+    else if (isMorning) timeOfDay = 'morning';
+    else if (isEvening) timeOfDay = 'evening';
+
+    const mockHoliday = getQueryParam('mockHoliday');
+    let holiday = null;
+    if (mockHoliday) {
+      holiday = mockHoliday;
+    } else {
+      const year = now.getFullYear();
+      const tet = getTetDate(year);
+      if (tet) {
+        const d0 = new Date(tet); d0.setDate(d0.getDate() - 1);
+        const d1 = new Date(tet); d1.setDate(d1.getDate() + 2);
+        if (now >= d0 && now <= d1) holiday = 'tet';
       }
+      const m = now.getMonth() + 1, d = now.getDate();
+      if (!holiday && m === 12 && (d === 24 || d === 25)) holiday = 'christmas';
+      if (!holiday && m === 1 && d === 1) holiday = 'newyear';
+      if (!holiday && m === 9 && (d === 1 || d === 2)) holiday = 'national';
+    }
 
-      const tetDates = {
-        2024: "2024-02-10",
-        2025: "2025-01-29",
-        2026: "2026-02-17",
-        2027: "2027-02-06",
-        2028: "2028-01-26",
-        2029: "2029-02-13",
-        2030: "2030-02-03",
-      };
-      function getTetDate(year) {
-        return tetDates[year] ? new Date(tetDates[year] + "T00:00:00") : null;
+    const mockJobSeason = getQueryParam('mockJobSeason');
+    let jobSeasonHigh;
+    if (mockJobSeason !== null) {
+      jobSeasonHigh = mockJobSeason === '1';
+    } else {
+      const year = now.getFullYear();
+      const tet = getTetDate(year);
+      let postTet = false;
+      if (tet) {
+        const s = new Date(tet); s.setDate(s.getDate() + 14);
+        const e = new Date(tet); e.setDate(e.getDate() + 35);
+        if (now >= s && now <= e) postTet = true;
       }
+      const m = now.getMonth() + 1;
+      jobSeasonHigh = postTet || m === 3 || m === 4 || m === 7 || m === 8;
+    }
 
-      function resolveContext() {
-        const now = new Date();
+    return { hour, isNight, isWeekend, isMorning, isEvening, timeOfDay, holiday, jobSeasonHigh };
+  }
 
-        const mockHour = getQueryParam("mockHour");
-        const hour =
-          mockHour !== null ? parseInt(mockHour, 10) : now.getHours();
+  const holidayNames = {
+    tet: { vi: 'Tết', en: 'Tet' },
+    christmas: { vi: 'Giáng Sinh', en: 'Christmas' },
+    newyear: { vi: 'năm mới', en: 'the New Year' },
+    national: { vi: 'Quốc khánh', en: 'National Day' }
+  };
 
-        const mockWeekend = getQueryParam("mockWeekend");
-        const isWeekend =
-          mockWeekend !== null
-            ? mockWeekend === "1"
-            : now.getDay() === 0 || now.getDay() === 6;
-
-        const isNight = hour >= 0 && hour < 5;
-        const isMorning = hour >= 5 && hour < 11;
-        const isEvening = hour >= 18 && hour < 24 && !isNight;
-
-        let timeOfDay = "day";
-        if (isNight) timeOfDay = "night";
-        else if (isMorning) timeOfDay = "morning";
-        else if (isEvening) timeOfDay = "evening";
-
-        const mockHoliday = getQueryParam("mockHoliday");
-        let holiday = null;
-        if (mockHoliday) {
-          holiday = mockHoliday;
-        } else {
-          const year = now.getFullYear();
-          const tet = getTetDate(year);
-          if (tet) {
-            const d0 = new Date(tet);
-            d0.setDate(d0.getDate() - 1);
-            const d1 = new Date(tet);
-            d1.setDate(d1.getDate() + 2);
-            if (now >= d0 && now <= d1) holiday = "tet";
-          }
-          const m = now.getMonth() + 1,
-            d = now.getDate();
-          if (!holiday && m === 12 && (d === 24 || d === 25))
-            holiday = "christmas";
-          if (!holiday && m === 1 && d === 1) holiday = "newyear";
-          if (!holiday && m === 9 && (d === 1 || d === 2)) holiday = "national";
-        }
-
-        const mockJobSeason = getQueryParam("mockJobSeason");
-        let jobSeasonHigh;
-        if (mockJobSeason !== null) {
-          jobSeasonHigh = mockJobSeason === "1";
-        } else {
-          const year = now.getFullYear();
-          const tet = getTetDate(year);
-          let postTet = false;
-          if (tet) {
-            const s = new Date(tet);
-            s.setDate(s.getDate() + 14);
-            const e = new Date(tet);
-            e.setDate(e.getDate() + 35);
-            if (now >= s && now <= e) postTet = true;
-          }
-          const m = now.getMonth() + 1;
-          jobSeasonHigh = postTet || m === 3 || m === 4 || m === 7 || m === 8;
-        }
-
-        return {
-          hour,
-          isNight,
-          isWeekend,
-          isMorning,
-          isEvening,
-          timeOfDay,
-          holiday,
-          jobSeasonHigh,
-        };
+  const messagePool = {
+    '1': {
+      vi: [
+        "Đêm {holiday} cuối tuần rồi, cảm ơn vẫn dành thời gian ghé xem — mong bạn cũng đang nghỉ ngơi thật thoải mái",
+        "Giờ này của dịp {holiday} mà vẫn làm việc, chúc bạn sớm được nghỉ ngơi trọn vẹn",
+        "Cảm ơn đã ghé thăm vào đêm {holiday} — chúc bạn một kỳ nghỉ thật nhẹ nhàng"
+      ],
+      en: [
+        "Late night during the {holiday} weekend — thanks for stopping by, hope you're getting some rest too",
+        "Working this late during {holiday}? Hope you get to properly unwind soon",
+        "Thanks for visiting on a {holiday} night — wishing you a restful break"
+      ]
+    },
+    '2': {
+      vi: [
+        "Khuya rồi mà vẫn làm việc dịp {holiday}, mong bạn giữ sức khỏe nhé",
+        "Cảm ơn đã dành thời gian xem hồ sơ ngoài giờ trong dịp {holiday} này",
+        "Làm việc tới giờ này dịp {holiday} chắc khá bận, chúc bạn sớm được nghỉ ngơi"
+      ],
+      en: [
+        "Working late during {holiday} — hope you're taking care of yourself",
+        "Appreciate you reviewing this outside hours during {holiday}",
+        "Busy schedule this {holiday}? Hope you get some downtime soon"
+      ]
+    },
+    '3': {
+      vi: [
+        "Chúc bạn {holiday} vui vẻ và một cuối tuần thật thoải mái",
+        "Cảm ơn đã ghé xem vào dịp {holiday} cuối tuần này",
+        "Mong {holiday} năm nay mang lại cho bạn nhiều điều tốt đẹp"
+      ],
+      en: [
+        "Happy {holiday} — hope you're enjoying a relaxing weekend",
+        "Thanks for stopping by during {holiday}",
+        "Wishing you a wonderful {holiday}"
+      ]
+    },
+    '4': {
+      vi: [
+        "Chúc bạn {holiday} an lành",
+        "Cảm ơn đã ghé xem hồ sơ trong dịp {holiday}",
+        "Mong {holiday} mang lại nhiều điều tốt đẹp cho bạn và gia đình"
+      ],
+      en: [
+        "Wishing you a great {holiday}",
+        "Thanks for visiting during {holiday}",
+        "Hope {holiday} brings good things your way"
+      ]
+    },
+    '5': {
+      vi: [
+        "Cuối tuần mà vẫn làm việc tới khuya, mong bạn sớm được nghỉ ngơi",
+        "Cảm ơn đã dành thời gian cuối tuần, giờ này rồi nhớ giữ sức khỏe nhé",
+        "Làm việc khuya cuối tuần chắc khá bận, chúc bạn sớm thư giãn được"
+      ],
+      en: [
+        "Working late on a weekend — hope you get to rest soon",
+        "Thanks for the weekend visit, and take care at this hour",
+        "Busy weekend night? Hope you get to unwind soon"
+      ]
+    },
+    '6': {
+      vi: [
+        "Giờ này rồi, mong bạn giữ sức khỏe và sớm được nghỉ ngơi",
+        "Cảm ơn đã dành thời gian xem hồ sơ ngoài giờ làm việc",
+        "Làm việc tới khuya vậy chắc khá bận, chúc bạn sớm nghỉ ngơi"
+      ],
+      en: [
+        "It's quite late — hope you get some rest soon",
+        "Appreciate you taking the time outside working hours",
+        "Working this late? Hope you get to unwind soon"
+      ]
+    },
+    '7': {
+      vi: [
+        "Cảm ơn đã dành thời gian cuối tuần để xem qua hồ sơ này",
+        "Cuối tuần rồi, mong bạn cũng có thời gian nghỉ ngơi thoải mái",
+        "Cảm ơn đã ghé thăm dù là cuối tuần"
+      ],
+      en: [
+        "Thanks for taking time on a weekend to look through this",
+        "Hope you're getting some downtime this weekend too",
+        "Appreciate the visit, even on a weekend"
+      ]
+    },
+    '8': {
+      morning: {
+        vi: [
+          "Chào buổi sáng, cảm ơn đã ghé xem hồ sơ này",
+          "Buổi sáng tốt lành, rất vui được kết nối với bạn",
+          "Chào buổi sáng, hy vọng ngày mới của bạn suôn sẻ"
+        ],
+        en: [
+          "Good morning — thanks for stopping by",
+          "Morning! Happy to connect with you",
+          "Good morning, hope your day's off to a great start"
+        ]
+      },
+      day: {
+        vi: [
+          "Chào buổi chiều, cảm ơn đã dành thời gian ghé qua",
+          "Chúc bạn buổi chiều làm việc hiệu quả",
+          "Cảm ơn đã ghé xem hồ sơ này, rất vui được kết nối"
+        ],
+        en: [
+          "Good afternoon — thanks for taking a look",
+          "Hope your afternoon is going well",
+          "Thanks for stopping by, happy to connect"
+        ]
+      },
+      evening: {
+        vi: [
+          "Chào buổi tối, cảm ơn đã ghé xem hồ sơ này",
+          "Buổi tối vui vẻ, rất vui được kết nối với bạn",
+          "Cảm ơn đã dành thời gian buổi tối để xem qua đây"
+        ],
+        en: [
+          "Good evening — thanks for stopping by",
+          "Evening! Happy to connect with you",
+          "Thanks for taking time this evening to check this out"
+        ]
       }
+    }
+  };
 
-      const holidayNames = {
-        tet: { vi: "Tết", en: "Tet" },
-        christmas: { vi: "Giáng Sinh", en: "Christmas" },
-        newyear: { vi: "năm mới", en: "the New Year" },
-        national: { vi: "Quốc khánh", en: "National Day" },
-      };
+  function getVariantsForContext(ctx, lang) {
+    const caseKey = `${ctx.holiday ? 1 : 0}${ctx.isNight ? 1 : 0}${ctx.isWeekend ? 1 : 0}`;
+    const caseMap = { '111': '1', '110': '2', '101': '3', '100': '4', '011': '5', '010': '6', '001': '7', '000': '8' };
+    const caseId = caseMap[caseKey];
+    if (!caseId) return [];
 
-      const messagePool = {
-        1: {
-          vi: [
-            "Đêm {holiday} cuối tuần rồi, cảm ơn vẫn dành thời gian ghé xem — mong bạn cũng đang nghỉ ngơi thật thoải mái",
-            "Giờ này của dịp {holiday} mà vẫn làm việc, chúc bạn sớm được nghỉ ngơi trọn vẹn",
-            "Cảm ơn đã ghé thăm vào đêm {holiday} — chúc bạn một kỳ nghỉ thật nhẹ nhàng",
-          ],
-          en: [
-            "Late night during the {holiday} weekend — thanks for stopping by, hope you're getting some rest too",
-            "Working this late during {holiday}? Hope you get to properly unwind soon",
-            "Thanks for visiting on a {holiday} night — wishing you a restful break",
-          ],
-        },
-        2: {
-          vi: [
-            "Khuya rồi mà vẫn làm việc dịp {holiday}, mong bạn giữ sức khỏe nhé",
-            "Cảm ơn đã dành thời gian xem hồ sơ ngoài giờ trong dịp {holiday} này",
-            "Làm việc tới giờ này dịp {holiday} chắc khá bận, chúc bạn sớm được nghỉ ngơi",
-          ],
-          en: [
-            "Working late during {holiday} — hope you're taking care of yourself",
-            "Appreciate you reviewing this outside hours during {holiday}",
-            "Busy schedule this {holiday}? Hope you get some downtime soon",
-          ],
-        },
-        3: {
-          vi: [
-            "Chúc bạn {holiday} vui vẻ và một cuối tuần thật thoải mái",
-            "Cảm ơn đã ghé xem vào dịp {holiday} cuối tuần này",
-            "Mong {holiday} năm nay mang lại cho bạn nhiều điều tốt đẹp",
-          ],
-          en: [
-            "Happy {holiday} — hope you're enjoying a relaxing weekend",
-            "Thanks for stopping by during {holiday}",
-            "Wishing you a wonderful {holiday}",
-          ],
-        },
-        4: {
-          vi: [
-            "Chúc bạn {holiday} an lành",
-            "Cảm ơn đã ghé xem hồ sơ trong dịp {holiday}",
-            "Mong {holiday} mang lại nhiều điều tốt đẹp cho bạn và gia đình",
-          ],
-          en: [
-            "Wishing you a great {holiday}",
-            "Thanks for visiting during {holiday}",
-            "Hope {holiday} brings good things your way",
-          ],
-        },
-        5: {
-          vi: [
-            "Cuối tuần mà vẫn làm việc tới khuya, mong bạn sớm được nghỉ ngơi",
-            "Cảm ơn đã dành thời gian cuối tuần, giờ này rồi nhớ giữ sức khỏe nhé",
-            "Làm việc khuya cuối tuần chắc khá bận, chúc bạn sớm thư giãn được",
-          ],
-          en: [
-            "Working late on a weekend — hope you get to rest soon",
-            "Thanks for the weekend visit, and take care at this hour",
-            "Busy weekend night? Hope you get to unwind soon",
-          ],
-        },
-        6: {
-          vi: [
-            "Giờ này rồi, mong bạn giữ sức khỏe và sớm được nghỉ ngơi",
-            "Cảm ơn đã dành thời gian xem hồ sơ ngoài giờ làm việc",
-            "Làm việc tới khuya vậy chắc khá bận, chúc bạn sớm nghỉ ngơi",
-          ],
-          en: [
-            "It's quite late — hope you get some rest soon",
-            "Appreciate you taking the time outside working hours",
-            "Working this late? Hope you get to unwind soon",
-          ],
-        },
-        7: {
-          vi: [
-            "Cảm ơn đã dành thời gian cuối tuần để xem qua hồ sơ này",
-            "Cuối tuần rồi, mong bạn cũng có thời gian nghỉ ngơi thoải mái",
-            "Cảm ơn đã ghé thăm dù là cuối tuần",
-          ],
-          en: [
-            "Thanks for taking time on a weekend to look through this",
-            "Hope you're getting some downtime this weekend too",
-            "Appreciate the visit, even on a weekend",
-          ],
-        },
-        8: {
-          morning: {
-            vi: [
-              "Chào buổi sáng, cảm ơn đã ghé xem hồ sơ này",
-              "Buổi sáng tốt lành, rất vui được kết nối với bạn",
-              "Chào buổi sáng, hy vọng ngày mới của bạn suôn sẻ",
-            ],
-            en: [
-              "Good morning — thanks for stopping by",
-              "Morning! Happy to connect with you",
-              "Good morning, hope your day's off to a great start",
-            ],
-          },
-          day: {
-            vi: [
-              "Chào buổi chiều, cảm ơn đã dành thời gian ghé qua",
-              "Chúc bạn buổi chiều làm việc hiệu quả",
-              "Cảm ơn đã ghé xem hồ sơ này, rất vui được kết nối",
-            ],
-            en: [
-              "Good afternoon — thanks for taking a look",
-              "Hope your afternoon is going well",
-              "Thanks for stopping by, happy to connect",
-            ],
-          },
-          evening: {
-            vi: [
-              "Chào buổi tối, cảm ơn đã ghé xem hồ sơ này",
-              "Buổi tối vui vẻ, rất vui được kết nối với bạn",
-              "Cảm ơn đã dành thời gian buổi tối để xem qua đây",
-            ],
-            en: [
-              "Good evening — thanks for stopping by",
-              "Evening! Happy to connect with you",
-              "Thanks for taking time this evening to check this out",
-            ],
-          },
-        },
-      };
+    let raw;
+    if (caseId === '8') {
+      const period = ctx.timeOfDay === 'morning' ? 'morning' : (ctx.timeOfDay === 'evening' ? 'evening' : 'day');
+      raw = messagePool['8'][period][lang];
+    } else {
+      raw = messagePool[caseId][lang];
+    }
 
-      function getVariantsForContext(ctx, lang) {
-        const caseKey = `${ctx.holiday ? 1 : 0}${ctx.isNight ? 1 : 0}${ctx.isWeekend ? 1 : 0}`;
-        const caseMap = {
-          111: "1",
-          110: "2",
-          101: "3",
-          100: "4",
-          "011": "5",
-          "010": "6",
-          "001": "7",
-          "000": "8",
-        };
-        const caseId = caseMap[caseKey];
-        if (!caseId) return [];
+    return raw.map(t => (ctx.holiday && holidayNames[ctx.holiday]) ? t.replace('{holiday}', holidayNames[ctx.holiday][lang]) : t);
+  }
 
-        let raw;
-        if (caseId === "8") {
-          const period =
-            ctx.timeOfDay === "morning"
-              ? "morning"
-              : ctx.timeOfDay === "evening"
-                ? "evening"
-                : "day";
-          raw = messagePool["8"][period][lang];
-        } else {
-          raw = messagePool[caseId][lang];
-        }
+  function applyTimeTheme(ctx) {
+    const root = document.documentElement.style;
+    const presets = {
+      night:   { bg: '#07090C', op1: '0.22', op2: '0.16', op3: '0.18', op4: '0.12', d1: '38s', d2: '44s', d3: '50s', d4: '40s', dot: '3.4s' },
+      morning: { bg: '#0C1014', op1: '0.42', op2: '0.32', op3: '0.36', op4: '0.26', d1: '18s', d2: '22s', d3: '26s', d4: '20s', dot: '1.8s' },
+      evening: { bg: '#0B0E11', op1: '0.32', op2: '0.24', op3: '0.28', op4: '0.18', d1: '26s', d2: '30s', d3: '34s', d4: '28s', dot: '2.6s' },
+      day:     { bg: '#0B0E11', op1: '0.38', op2: '0.28', op3: '0.32', op4: '0.22', d1: '22s', d2: '26s', d3: '30s', d4: '24s', dot: '2.2s' }
+    };
+    const p = presets[ctx.timeOfDay] || presets.day;
+    root.setProperty('--bg', p.bg);
+    root.setProperty('--mesh-op1', p.op1);
+    root.setProperty('--mesh-op2', p.op2);
+    root.setProperty('--mesh-op3', p.op3);
+    root.setProperty('--mesh-op4', p.op4);
+    root.setProperty('--drift1-dur', p.d1);
+    root.setProperty('--drift2-dur', p.d2);
+    root.setProperty('--drift3-dur', p.d3);
+    root.setProperty('--drift4-dur', p.d4);
+    root.setProperty('--dot-speed', p.dot);
+  }
 
-        return raw.map((t) =>
-          ctx.holiday && holidayNames[ctx.holiday]
-            ? t.replace("{holiday}", holidayNames[ctx.holiday][lang])
-            : t,
-        );
-      }
+  function applyHolidayBlob(ctx) {
+    const blob = document.getElementById('holidayBlob');
+    if (!blob) return;
+    const colors = {
+      tet: 'radial-gradient(circle at 50% 50%, #D4A017, transparent 68%)',
+      christmas: 'radial-gradient(circle at 50% 50%, #2F8F4E, transparent 68%)',
+      newyear: 'radial-gradient(circle at 50% 50%, #C1440E, transparent 68%)',
+      national: 'radial-gradient(circle at 50% 50%, #C1440E, transparent 68%)'
+    };
+    if (ctx.holiday && colors[ctx.holiday]) {
+      blob.style.background = colors[ctx.holiday];
+      blob.style.opacity = '0.22';
+    } else {
+      blob.style.opacity = '0';
+    }
+  }
 
-      function applyTimeTheme(ctx) {
-        const root = document.documentElement.style;
-        const presets = {
-          night: {
-            bg: "#07090C",
-            op1: "0.22",
-            op2: "0.16",
-            op3: "0.18",
-            op4: "0.12",
-            d1: "38s",
-            d2: "44s",
-            d3: "50s",
-            d4: "40s",
-            dot: "3.4s",
-          },
-          morning: {
-            bg: "#0C1014",
-            op1: "0.42",
-            op2: "0.32",
-            op3: "0.36",
-            op4: "0.26",
-            d1: "18s",
-            d2: "22s",
-            d3: "26s",
-            d4: "20s",
-            dot: "1.8s",
-          },
-          evening: {
-            bg: "#0B0E11",
-            op1: "0.32",
-            op2: "0.24",
-            op3: "0.28",
-            op4: "0.18",
-            d1: "26s",
-            d2: "30s",
-            d3: "34s",
-            d4: "28s",
-            dot: "2.6s",
-          },
-          day: {
-            bg: "#0B0E11",
-            op1: "0.38",
-            op2: "0.28",
-            op3: "0.32",
-            op4: "0.22",
-            d1: "22s",
-            d2: "26s",
-            d3: "30s",
-            d4: "24s",
-            dot: "2.2s",
-          },
-        };
-        const p = presets[ctx.timeOfDay] || presets.day;
-        root.setProperty("--bg", p.bg);
-        root.setProperty("--mesh-op1", p.op1);
-        root.setProperty("--mesh-op2", p.op2);
-        root.setProperty("--mesh-op3", p.op3);
-        root.setProperty("--mesh-op4", p.op4);
-        root.setProperty("--drift1-dur", p.d1);
-        root.setProperty("--drift2-dur", p.d2);
-        root.setProperty("--drift3-dur", p.d3);
-        root.setProperty("--drift4-dur", p.d4);
-        root.setProperty("--dot-speed", p.dot);
-      }
+  let msgRotateTimer = null;
 
-      function applyHolidayBlob(ctx) {
-        const blob = document.getElementById("holidayBlob");
-        if (!blob) return;
-        const colors = {
-          tet: "radial-gradient(circle at 50% 50%, #D4A017, transparent 68%)",
-          christmas:
-            "radial-gradient(circle at 50% 50%, #2F8F4E, transparent 68%)",
-          newyear:
-            "radial-gradient(circle at 50% 50%, #C1440E, transparent 68%)",
-          national:
-            "radial-gradient(circle at 50% 50%, #C1440E, transparent 68%)",
-        };
-        if (ctx.holiday && colors[ctx.holiday]) {
-          blob.style.background = colors[ctx.holiday];
-          blob.style.opacity = "0.22";
-        } else {
-          blob.style.opacity = "0";
-        }
-      }
+  function applyMessageBanner(ctx, lang) {
+    const banner = document.getElementById('contextBanner');
+    const msgEl = document.getElementById('contextMsg');
+    const variants = getVariantsForContext(ctx, lang);
 
-      let msgRotateTimer = null;
+    if (msgRotateTimer) {
+      clearInterval(msgRotateTimer);
+      msgRotateTimer = null;
+    }
 
-      function applyMessageBanner(ctx, lang) {
-        const banner = document.getElementById("contextBanner");
-        const msgEl = document.getElementById("contextMsg");
-        const variants = getVariantsForContext(ctx, lang);
+    if (!variants || variants.length === 0) {
+      banner.classList.remove('show');
+      return;
+    }
 
-        if (msgRotateTimer) {
-          clearInterval(msgRotateTimer);
-          msgRotateTimer = null;
-        }
+    banner.classList.add('show');
 
-        if (!variants || variants.length === 0) {
-          banner.classList.remove("show");
-          return;
-        }
+    let idx = Math.floor(Math.random() * variants.length);
+    msgEl.textContent = variants[idx];
 
-        banner.classList.add("show");
+    if (variants.length > 1) {
+      msgRotateTimer = setInterval(() => {
+        msgEl.classList.add('msg-fade');
+        setTimeout(() => {
+          idx = (idx + 1) % variants.length;
+          msgEl.textContent = variants[idx];
+          msgEl.classList.remove('msg-fade');
+        }, 400);
+      }, 5000);
+    }
+  }
 
-        let idx = Math.floor(Math.random() * variants.length);
-        msgEl.textContent = variants[idx];
+  function applyLogLine(ctx) {
+    const el = document.getElementById('logLine');
+    if (!el) return;
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const ts = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const flags = [`mode:${ctx.timeOfDay}`];
+    if (ctx.isWeekend) flags.push('weekend');
+    if (ctx.holiday) flags.push(`holiday:${ctx.holiday}`);
+    if (ctx.jobSeasonHigh) flags.push('job_season:high');
+    el.textContent = `// visited_at: ${ts} · local_time · ${flags.join(' · ')}`;
+  }
 
-        if (variants.length > 1) {
-          msgRotateTimer = setInterval(() => {
-            msgEl.classList.add("msg-fade");
-            setTimeout(() => {
-              idx = (idx + 1) % variants.length;
-              msgEl.textContent = variants[idx];
-              msgEl.classList.remove("msg-fade");
-            }, 400);
-          }, 5000);
-        }
-      }
-
-      function applyLogLine(ctx) {
-        const el = document.getElementById("logLine");
-        if (!el) return;
-        const now = new Date();
-        const pad = (n) => String(n).padStart(2, "0");
-        const ts = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
-        const flags = [`mode:${ctx.timeOfDay}`];
-        if (ctx.isWeekend) flags.push("weekend");
-        if (ctx.holiday) flags.push(`holiday:${ctx.holiday}`);
-        if (ctx.jobSeasonHigh) flags.push("job_season:high");
-        el.textContent = `// visited_at: ${ts} · local_time · ${flags.join(" · ")}`;
-      }
-
-      /* =========================================================
+  /* =========================================================
      RENDER
   ========================================================= */
-      function setLang(lang) {
-        const t = translations[lang];
-        document.documentElement.lang = lang;
+  function setLang(lang) {
+    const t = translations[lang];
+    document.documentElement.lang = lang;
 
-        const badgeEl = document.getElementById("statusBadge");
-        const badgeWrap = document.querySelector(".status-badge");
-        badgeEl.textContent = currentContext.jobSeasonHigh
-          ? t.statusBadgeActive
-          : t.statusBadge;
-        badgeWrap.classList.toggle(
-          "season-high",
-          !!currentContext.jobSeasonHigh,
-        );
+    const badgeEl = document.getElementById('statusBadge');
+    const badgeWrap = document.querySelector('.status-badge');
+    badgeEl.textContent = currentContext.jobSeasonHigh ? t.statusBadgeActive : t.statusBadge;
+    badgeWrap.classList.toggle('season-high', !!currentContext.jobSeasonHigh);
 
-        document.getElementById("headlinePre").textContent = t.headlinePre;
-        document.getElementById("headlineHl").textContent = t.headlineHl;
-        document.getElementById("lede").textContent = t.lede;
-        document.getElementById("stat1Label").textContent = t.stat1Label;
-        document.getElementById("stat2Label").textContent = t.stat2Label;
-        document.getElementById("stat3Label").textContent = t.stat3Label;
-        document.getElementById("stat4Label").textContent = t.stat4Label;
-        document.getElementById("ctaProjects").textContent = t.ctaProjects;
-        document.getElementById("ctaContact").textContent = t.ctaContact;
+    document.getElementById('headlinePre').textContent = t.headlinePre;
+    document.getElementById('headlineHl').textContent = t.headlineHl;
+    document.getElementById('lede').textContent = t.lede;
+    document.getElementById('stat1Label').textContent = t.stat1Label;
+    document.getElementById('stat2Label').textContent = t.stat2Label;
+    document.getElementById('stat3Label').textContent = t.stat3Label;
+    document.getElementById('stat4Label').textContent = t.stat4Label;
+    document.getElementById('ctaProjects').textContent = t.ctaProjects;
+    document.getElementById('ctaContact').textContent = t.ctaContact;
 
-        document.getElementById("aboutHeading").textContent = t.aboutHeading;
-        document.getElementById("about1").innerHTML = t.about1;
-        document.getElementById("about2").innerHTML = t.about2;
-        document.getElementById("about3").innerHTML = t.about3;
+    document.getElementById('aboutHeading').textContent = t.aboutHeading;
+    document.getElementById('about1').innerHTML = t.about1;
+    document.getElementById('about2').innerHTML = t.about2;
+    document.getElementById('about3').innerHTML = t.about3;
 
-        document.getElementById("projectsHeading").textContent =
-          t.projectsHeading;
+    document.getElementById('timelineHeading').textContent = t.timelineHeading;
+    ['1', '2', '3', '4'].forEach(n => {
+      document.getElementById('tl' + n + 'Period').textContent = t['tl' + n + 'Period'];
+      document.getElementById('tl' + n + 'Role').textContent = t['tl' + n + 'Role'];
+      document.getElementById('tl' + n + 'Company').textContent = t['tl' + n + 'Company'];
+    });
+    document.getElementById('tl2Pivot').textContent = t.tl2Pivot;
 
-        document.getElementById("p1Sub").textContent = t.p1Sub;
-        document.getElementById("p1Problem").textContent = t.p1Problem;
-        document.getElementById("p1Approach").textContent = t.p1Approach;
-        document.getElementById("p1Result").textContent = t.p1Result;
+    document.getElementById('projectsHeading').textContent = t.projectsHeading;
 
-        document.getElementById("p2Sub").textContent = t.p2Sub;
-        document.getElementById("p2Problem").textContent = t.p2Problem;
-        document.getElementById("p2Approach").textContent = t.p2Approach;
-        document.getElementById("p2Result").textContent = t.p2Result;
+    document.getElementById('p1Sub').textContent = t.p1Sub;
+    document.getElementById('p1Problem').textContent = t.p1Problem;
+    document.getElementById('p1Approach').textContent = t.p1Approach;
+    document.getElementById('p1Result').textContent = t.p1Result;
 
-        document.getElementById("p3Sub").textContent = t.p3Sub;
-        document.getElementById("p3Problem").textContent = t.p3Problem;
-        document.getElementById("p3Approach").textContent = t.p3Approach;
-        document.getElementById("p3Result").textContent = t.p3Result;
+    document.getElementById('p2Sub').textContent = t.p2Sub;
+    document.getElementById('p2Problem').textContent = t.p2Problem;
+    document.getElementById('p2Approach').textContent = t.p2Approach;
+    document.getElementById('p2Result').textContent = t.p2Result;
 
-        ["1", "2", "3"].forEach((n) => {
-          document.getElementById("labelProblem" + n).textContent =
-            t.labelProblem;
-          document.getElementById("labelApproach" + n).textContent =
-            t.labelApproach;
-          document.getElementById("labelResult" + n).textContent =
-            t.labelResult;
-        });
+    document.getElementById('p3Sub').textContent = t.p3Sub;
+    document.getElementById('p3Problem').textContent = t.p3Problem;
+    document.getElementById('p3Approach').textContent = t.p3Approach;
+    document.getElementById('p3Result').textContent = t.p3Result;
 
-        document.getElementById("skillsHeading").textContent = t.skillsHeading;
-        document.getElementById("skillGroup1").textContent = t.skillGroup1;
-        document.getElementById("skillGroup2").textContent = t.skillGroup2;
-        document.getElementById("skillGroup3").textContent = t.skillGroup3;
-        document.getElementById("skillGroup4").textContent = t.skillGroup4;
-        document.getElementById("skill3a").textContent = t.skill3a;
-        document.getElementById("skill4c").textContent = t.skill4c;
+    ['1', '2', '3'].forEach(n => {
+      document.getElementById('labelProblem' + n).textContent = t.labelProblem;
+      document.getElementById('labelApproach' + n).textContent = t.labelApproach;
+      document.getElementById('labelResult' + n).textContent = t.labelResult;
+    });
 
-        document.getElementById("contactHeading").textContent =
-          t.contactHeading;
-        document.getElementById("contactSub").textContent = t.contactSub;
-        document.getElementById("contactP").textContent = t.contactP;
-        document.getElementById("ctaDownload").textContent = t.ctaDownload;
-        document.getElementById("footNote").textContent = t.footNote;
+    document.getElementById('skillsHeading').textContent = t.skillsHeading;
+    document.getElementById('skillGroup1').textContent = t.skillGroup1;
+    document.getElementById('skillGroup2').textContent = t.skillGroup2;
+    document.getElementById('skillGroup3').textContent = t.skillGroup3;
+    document.getElementById('skillGroup4').textContent = t.skillGroup4;
+    document.getElementById('skill3a').textContent = t.skill3a;
+    document.getElementById('skill4c').textContent = t.skill4c;
 
-        document.querySelectorAll(".lang-switch button").forEach((b) => {
-          b.classList.toggle("active", b.dataset.lang === lang);
-        });
+    document.getElementById('contactHeading').textContent = t.contactHeading;
+    document.getElementById('contactSub').textContent = t.contactSub;
+    document.getElementById('contactP').textContent = t.contactP;
+    document.getElementById('ctaDownload').textContent = t.ctaDownload;
+    document.getElementById('footNote').textContent = t.footNote;
 
-        applyMessageBanner(currentContext, lang);
-      }
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
 
-      document.querySelectorAll(".lang-switch button").forEach((b) => {
-        b.addEventListener("click", () => setLang(b.dataset.lang));
-      });
+    applyMessageBanner(currentContext, lang);
+  }
 
-      const currentContext = resolveContext();
-      applyTimeTheme(currentContext);
-      applyHolidayBlob(currentContext);
-      applyLogLine(currentContext);
+  document.querySelectorAll('.lang-switch button').forEach(b => {
+    b.addEventListener('click', () => setLang(b.dataset.lang));
+  });
 
-      setLang("en");
-    </script>
-  </body>
+  const currentContext = resolveContext();
+  applyTimeTheme(currentContext);
+  applyHolidayBlob(currentContext);
+  applyLogLine(currentContext);
+
+  setLang('en');
+</script>
+
+</body>
 </html>
